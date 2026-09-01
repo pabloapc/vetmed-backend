@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: gimed-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=gimed
+    restart: unless-stopped
+
+  api:
+    build: .
+    container_name: gimed-api
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - MONGODB_URI=mongodb://mongodb:27017/gimed
+      - JWT_SECRET=gimed_secret_key_development_2024
+      - JWT_EXPIRE=7d
+      - JWT_VERIFICATION_EXPIRE=24h
+      - RESEND_API_KEY=your_resend_api_key_here
+      - FROM_EMAIL=noreply@gimed.com
+      - FRONTEND_URL=http://localhost:3000
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run dev
+
+volumes:
+  mongodb_data:

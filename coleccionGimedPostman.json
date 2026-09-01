@@ -1,0 +1,456 @@
+{
+    "info": {
+        "name": "Gimed API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Register",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Juan Pérez\",\n  \"email\": \"juan@example.com\",\n  \"password\": \"password123\",\n  \"latitude\": 40.7128,\n  \"longitude\": -74.0060\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/auth/register",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["auth", "register"]
+                        }
+                    }
+                },
+                {
+                    "name": "Login",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"juan@example.com\",\n  \"password\": \"password123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/auth/login",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["auth", "login"]
+                        }
+                    }
+                },
+                {
+                    "name": "Verify Email",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/auth/verify-email/:token",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["auth", "verify-email", ":token"],
+                            "variable": [
+                                {
+                                    "key": "token",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Me",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/auth/me",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["auth", "me"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Pharmacies",
+            "item": [
+                {
+                    "name": "Get All Pharmacies",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/pharmacies",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["pharmacies"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Nearby Pharmacies",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/pharmacies/nearby?maxDistance=5000",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["pharmacies", "nearby"],
+                            "query": [
+                                {
+                                    "key": "maxDistance",
+                                    "value": "5000"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Search Pharmacies by Location",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/pharmacies?latitude=40.7128&longitude=-74.0060&maxDistance=5000",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["pharmacies"],
+                            "query": [
+                                {
+                                    "key": "latitude",
+                                    "value": "40.7128"
+                                },
+                                {
+                                    "key": "longitude",
+                                    "value": "-74.0060"
+                                },
+                                {
+                                    "key": "maxDistance",
+                                    "value": "5000"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Pharmacy by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/pharmacies/:id",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["pharmacies", ":id"],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Pharmacy",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Farmacia Nueva\",\n  \"address\": \"Calle 123, Centro\",\n  \"phone\": \"+1234567890\",\n  \"latitude\": 40.7128,\n  \"longitude\": -74.0060,\n  \"benefits\": \"Descuento del 10% en medicamentos genéricos\",\n  \"discount\": 10,\n  \"openingHours\": \"Lun-Vie: 9:00-18:00, Sáb: 9:00-14:00\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/pharmacies",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["pharmacies"]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Pharmacy",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Farmacia Actualizada\",\n  \"discount\": 15,\n  \"isActive\": true\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/pharmacies/:id",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["pharmacies", ":id"],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Pharmacy",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/pharmacies/:id",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["pharmacies", ":id"],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Doctors",
+            "item": [
+                {
+                    "name": "Get All Doctors",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/doctors",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["doctors"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Nearby Doctors",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/doctors/nearby?maxDistance=5000",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["doctors", "nearby"],
+                            "query": [
+                                {
+                                    "key": "maxDistance",
+                                    "value": "5000"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Search Doctors by Location",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/doctors?latitude=40.7128&longitude=-74.0060&maxDistance=5000",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["doctors"],
+                            "query": [
+                                {
+                                    "key": "latitude",
+                                    "value": "40.7128"
+                                },
+                                {
+                                    "key": "longitude",
+                                    "value": "-74.0060"
+                                },
+                                {
+                                    "key": "maxDistance",
+                                    "value": "5000"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Doctor by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/doctors/:id",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["doctors", ":id"],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Doctor",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Dr. Juan Pérez\",\n  \"specialty\": \"Cardiología\",\n  \"address\": \"Calle 123\",\n  \"phone\": \"+5493511234567\",\n  \"latitude\": 40.7128,\n  \"longitude\": -74.0060,\n  \"instagram\": \"https://www.instagram.com/dr.juanperez\",\n  \"horario\": \"Lun-Vie: 9:00-18:00\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/doctors",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["doctors"]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Doctor",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Dr. Juan Actualizado\",\n  \"specialty\": \"Cardiología\",\n  \"phone\": \"+5493510000000\",\n  \"instagram\": \"https://www.instagram.com/dr.juanperez\",\n  \"horario\": \"Lun-Vie: 9:00-18:00\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/doctors/:id",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["doctors", ":id"],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Doctor",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/doctors/:id",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["doctors", ":id"],
+                            "variable": [
+                                {
+                                    "key": "id",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:3000/api"
+        },
+        {
+            "key": "token",
+            "value": ""
+        }
+    ]
+}

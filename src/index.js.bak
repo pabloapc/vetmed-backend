@@ -1,0 +1,56 @@
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const connectDB = require('./config/database');
+const authRoutes = require('./routes/authRoutes');
+const pharmacyRoutes = require('./routes/pharmacyRoutes');
+const errorHandler = require('./middleware/errorHandler');
+const { apiLimiter } = require('./middleware/rateLimiter');
+
+const app = express();
+
+// Connect to database
+connectDB();
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Apply general rate limiting to all API routes
+app.use('/api/', apiLimiter);
+
+// Routes
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Bienvenido a Gimed API',
+    version: '1.0.0',
+    endpoints: {
+      auth: '/api/auth',
+      pharmacies: '/api/pharmacies'
+    }
+  });
+});
+
+app.use('/api/auth', authRoutes);
+app.use('/api/pharmacies', pharmacyRoutes);
+
+// Error handler (must be last)
+app.use(errorHandler);
+
+// Handle 404
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: 'Ruta no encontrada'
+  });
+});
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+});
+
+module.exports = app;
