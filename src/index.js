@@ -4,7 +4,6 @@ const cors = require("cors");
 const connectDB = require("./config/database");
 const authRoutes = require("./routes/authRoutes");
 const veterinariaRoutes = require("./routes/veterinariaRoutes");
-const doctorsRoutes = require("./routes/doctorsRoutes");
 const emergencyRoutes = require("./routes/emergencyRoutes");
 const requestRoutes = require("./routes/requestRoutes");
 const errorHandler = require("./middleware/errorHandler");
@@ -24,9 +23,6 @@ const providerRoutes = require("./routes/adminProviders");
 const prestationRoutes = require("./routes/adminPrestation");
 const prestationsRoutes = require("./routes/prestations");
 
-// NEW: Auditoría médica
-const auditRoutes = require("./routes/auditRoutes");
-const adminAuditRoutes = require("./routes/adminAuditRoutes");
 const insuranceRoutes = require("./routes/insuranceRoutes");
 
 
@@ -144,7 +140,6 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/veterinarias", veterinariaRoutes);
-app.use("/api/doctors", doctorsRoutes);
 app.use("/api/emergencies", emergencyRoutes);
 app.use("/api/requests", requestRoutes);
 
@@ -163,11 +158,6 @@ app.use("/api/admin", prestationRoutes);
 app.use("/api/contacts", contactRoutes);
 app.use("/api/search", searchRoutes);
 app.use("/api/insurance", insuranceRoutes);
-
-// rutas de auditoría médica
-app.use("/api/audits", auditRoutes);
-app.use("/api/admin/audits", adminAuditRoutes);
-
 
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 

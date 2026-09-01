@@ -48,22 +48,6 @@ router.patch(
 );
 
 
-// Doctors
-router.get("/doctors", protect, adminOnly, adminController.listDoctors);
-router.get("/doctors/:id", protect, adminOnly, adminController.getDoctor);
-router.put(
-    "/doctors/:id",
-    protect,
-    adminOnly,
-    adminController.updateDoctorAdmin
-);
-router.delete(
-    "/doctors/:id",
-    protect,
-    adminOnly,
-    adminController.deleteDoctorAdmin
-);
-
 // Emergencies
 router.get("/emergencies", protect, adminOnly, adminController.listEmergencies);
 router.get("/emergencies/:id", protect, adminOnly, adminController.getEmergency);
@@ -85,7 +69,6 @@ router.delete(
 // ... existentes requires ...
 router.post('/users', protect, adminOnly, adminController.createUser);
 router.post('/veterinarias', protect, adminOnly, adminController.createVeterinaria);
-router.post('/doctors', protect, adminOnly, adminController.createDoctor);
 router.post('/emergencies', protect, adminOnly, adminController.createEmergency);
 
 //dashboard metrics

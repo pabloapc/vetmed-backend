@@ -81,10 +81,10 @@ const userSchema = new mongoose.Schema(
             },
         },
 
-        // New: role and optional reference to entity (veterinaria/doctor)
+        // New: role and optional reference to entity (veterinaria)
         role: {
             type: String,
-            enum: ["user", "veterinaria", "doctor", "emergency", "admin"], // <-- añadí 'admin' aquí
+            enum: ["user", "veterinaria", "emergency", "admin"],
             default: null, // keep null for older users if you prefer; or "user"
         },
         entityId: {

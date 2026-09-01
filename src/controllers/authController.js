@@ -1,6 +1,5 @@
 const User = require("../models/User");
 const Veterinaria = require("../models/Veterinaria");
-const Doctor = require("../models/Doctor");
 const Emergency = require("../models/Emergency");
 const {
     generateToken,
@@ -29,7 +28,7 @@ const buildAuthUserPayload = async (user, extraFields = {}) => ({
 });
 
 /**
- * Register user and optional associated entity (veterinaria/doctor).
+ * Register user and optional associated entity (veterinaria/emergency).
  */
 // Nota: Asegurate de tener importado el modelo Emergency en la parte superior del archivo:
  
@@ -44,11 +43,11 @@ exports.register = async (req, res, next) => {
             password,
             latitude,
             longitude,
-            role, // optional: "veterinaria" | "doctor" | "emergency" | "user"
+            role, // optional: "veterinaria" | "emergency" | "user"
             entityId,
             planId,
 
-            // additional fields for veterinaria/doctor/emergency may come in body
+            // additional fields for veterinaria/emergency may come in body
             ...rest
         } = req.body;
 
@@ -88,7 +87,7 @@ exports.register = async (req, res, next) => {
 
         await user.save();
 
-        // If registering a veterinaria, doctor or emergency, create the corresponding document.
+        // If registering a veterinaria or emergency, create the corresponding document.
         // If entity creation fails, try to rollback the created user to avoid orphan users.
         let createdEntity = null;
         try {
@@ -124,33 +123,6 @@ exports.register = async (req, res, next) => {
                     owner: user._id,
                 };
                 createdEntity = await Veterinaria.create(veterinariaData);
-                user.entityId = createdEntity._id;
-            } else if (role === "doctor") {
-                const publicName =
-                    (entityName || rest.entityName || "").trim() ||
-                    user.name ||
-                    "Doctor";
-                const doctorData = {
-                    name: publicName,
-                    specialty: rest.specialty || rest.especialidad || "",
-                    address: rest.address || rest.direccion || "",
-                    phone: rest.phone || rest.telefono || "",
-                    url: rest.url || rest.instagram || "",
-                    horario: rest.horario || rest.openingHours || "",
-                    location: {
-                        type: "Point",
-                        coordinates: [
-                            typeof longitude !== "undefined"
-                                ? Number(longitude)
-                                : 0,
-                            typeof latitude !== "undefined"
-                                ? Number(latitude)
-                                : 0,
-                        ],
-                    },
-                    owner: user._id,
-                };
-                createdEntity = await Doctor.create(doctorData);
                 user.entityId = createdEntity._id;
             } else if (role === "emergency") {
                 const publicName =

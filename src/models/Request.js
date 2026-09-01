@@ -5,7 +5,7 @@ const requestSchema = new mongoose.Schema(
         // New unified target fields
         targetType: {
             type: String,
-            enum: ["veterinaria", "doctor", "emergency", "other"],
+            enum: ["veterinaria", "emergency", "other"],
             required: false,
             default: undefined,
         },

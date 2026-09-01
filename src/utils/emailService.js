@@ -118,7 +118,7 @@ async function sendVerificationEmail(email, token, name = "") {
 
 /**
  * Send a generic notification email.
- * Used to notify a doctor that patient confirmed.
+ * Used to notify an entity owner that a patient confirmed.
  */
 async function sendNotificationEmail(toEmail, subject, html, text) {
   try {

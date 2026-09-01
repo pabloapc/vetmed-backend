@@ -1,17 +1,16 @@
 const Veterinaria = require("../models/Veterinaria");
-const Doctor = require("../models/Doctor");
 
 /**
  * GET /api/search
  * Query:
  *   - q: string (required for suggestions/search)
- *   - type: 'veterinaria'|'doctor'|'both' (default both)
+ *   - type: 'veterinaria' (default)
  *   - limit: number (default 8) -> for suggestions
  *   - full: boolean (if true, return full matching docs instead of compact suggestions)
  *
  * Responses:
  *  - suggestions: [{ type, id, name, address, snippet }]
- *  - when full=true: { doctors: [...], veterinarias: [...] }
+ *  - when full=true: { veterinarias: [...] }
  */
 exports.search = async (req, res, next) => {
     try {
@@ -25,7 +24,7 @@ exports.search = async (req, res, next) => {
                 });
         }
 
-        const type = req.query.type || "both";
+        const type = req.query.type || "veterinaria";
         const limit = Math.min(50, parseInt(req.query.limit, 10) || 8);
         const full = req.query.full === "true" || req.query.full === true;
 
@@ -43,7 +42,7 @@ exports.search = async (req, res, next) => {
         // If full results requested, return full documents
         if (full) {
             const out = {};
-            if (type === "veterinaria" || type === "both") {
+            if (type === "veterinaria") {
                 const veterinarias = await Veterinaria.find({
                     $or: [
                         { name: regex },
@@ -55,25 +54,13 @@ exports.search = async (req, res, next) => {
                     .lean();
                 out.veterinarias = veterinarias;
             }
-            if (type === "doctor" || type === "both") {
-                const doctors = await Doctor.find({
-                    $or: [
-                        { name: regex },
-                        { specialty: regex },
-                        { address: regex },
-                    ],
-                })
-                    .limit(100)
-                    .lean();
-                out.doctors = doctors;
-            }
             return res.json({ success: true, data: out });
         }
 
-        // suggestions mode: return compact list from both collections
+        // suggestions mode: return compact list
         const suggestions = [];
 
-        if (type === "veterinaria" || type === "both") {
+        if (type === "veterinaria") {
             const phs = await Veterinaria.find({
                 $or: [
                     { name: regex },
@@ -89,31 +76,6 @@ exports.search = async (req, res, next) => {
                     id: p._id,
                     name: p.name,
                     address: p.address || p.direccion || snippetFrom(p),
-                });
-            });
-        }
-
-        if (
-            (type === "doctor" || type === "both") &&
-            suggestions.length < limit
-        ) {
-            // ask for (limit - current) doctors
-            const remaining = Math.max(1, limit - suggestions.length);
-            const docs = await Doctor.find({
-                $or: [
-                    { name: regex },
-                    { specialty: regex },
-                    { address: regex },
-                ],
-            })
-                .limit(remaining)
-                .lean();
-            docs.forEach((d) => {
-                suggestions.push({
-                    type: "doctor",
-                    id: d._id,
-                    name: d.name,
-                    address: d.address || snippetFrom(d),
                 });
             });
         }

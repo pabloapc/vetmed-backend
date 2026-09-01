@@ -1,6 +1,5 @@
 const User = require("../models/User");
 const Veterinaria = require("../models/Veterinaria");
-const Doctor = require("../models/Doctor");
 const Emergency = require("../models/Emergency");
 const mongoose = require("mongoose");
 
@@ -82,7 +81,6 @@ exports.getUser = async (req, res, next) => {
 // Asegurate que arriba del archivo están estos requires:
 // const User = require('../models/User');
 // const Veterinaria = require('../models/Veterinaria');
-// const Doctor = require('../models/Doctor');
 // const mongoose = require('mongoose');
 
 exports.updateUser = async (req, res, next) => {
@@ -119,29 +117,22 @@ exports.updateUser = async (req, res, next) => {
       if (targetRole === 'veterinaria') {
         const exist = await Veterinaria.findById(updates.entityId).lean();
         if (!exist) return res.status(400).json({ success: false, message: 'Veterinaria (entityId) no encontrada' });
-      } else if (targetRole === 'doctor') {
-        const exist = await Doctor.findById(updates.entityId).lean();
-        if (!exist) return res.status(400).json({ success: false, message: 'Doctor (entityId) no encontrado' });
       } else {
-        // Si role no es veterinaria/doctor pero se provee entityId, permitimos la asignación pero no validamos colección
+        // Si role no es veterinaria pero se provee entityId, permitimos la asignación pero no validamos colección
       }
     }
 
     // Si se envió entityData:
     if (entityData) {
-      // entityData solo tiene sentido cuando role objetivo es veterinaria o doctor
-      if (targetRole !== 'veterinaria' && targetRole !== 'doctor') {
-        return res.status(400).json({ success: false, message: 'entityData sólo es válido para role "veterinaria" o "doctor"' });
+      // entityData solo tiene sentido cuando role objetivo es veterinaria
+      if (targetRole !== 'veterinaria') {
+        return res.status(400).json({ success: false, message: 'entityData sólo es válido para role "veterinaria"' });
       }
 
       // Si user ya tiene entityId -> actualizar esa entidad con entityData
       if (user.entityId) {
         try {
-          if (targetRole === 'veterinaria') {
-            await Veterinaria.findByIdAndUpdate(user.entityId, buildEntityPayload('veterinaria', entityData), { new: true, runValidators: true });
-          } else if (targetRole === 'doctor') {
-            await Doctor.findByIdAndUpdate(user.entityId, buildEntityPayload('doctor', entityData), { new: true, runValidators: true });
-          }
+          await Veterinaria.findByIdAndUpdate(user.entityId, buildEntityPayload('veterinaria', entityData), { new: true, runValidators: true });
         } catch (updateEntityErr) {
           console.error('Error actualizando entidad existente en updateUser:', updateEntityErr);
           return res.status(400).json({ success: false, message: 'No se pudo actualizar la entidad existente', detail: updateEntityErr.message });
@@ -149,53 +140,31 @@ exports.updateUser = async (req, res, next) => {
       } else {
         // user no tiene entityId -> crear nueva entidad con entityData y asignar updates.entityId
         try {
-          if (targetRole === 'veterinaria') {
-            const payload = buildEntityPayload('veterinaria', entityData);
-            payload.owner = user._id;
-            createdEntity = await Veterinaria.create(payload);
-            createdEntityType = 'veterinaria';
-            updates.entityId = createdEntity._id;
-          } else if (targetRole === 'doctor') {
-            const payload = buildEntityPayload('doctor', entityData);
-            payload.owner = user._id;
-            createdEntity = await Doctor.create(payload);
-            createdEntityType = 'doctor';
-            updates.entityId = createdEntity._id;
-          }
+          const payload = buildEntityPayload('veterinaria', entityData);
+          payload.owner = user._id;
+          createdEntity = await Veterinaria.create(payload);
+          createdEntityType = 'veterinaria';
+          updates.entityId = createdEntity._id;
         } catch (createErr) {
           console.error('Error creando entidad desde entityData en updateUser:', createErr);
           return res.status(400).json({ success: false, message: 'No se pudo crear la entidad con los datos entregados', detail: createErr.message });
         }
       }
     } else {
-      // Si no hay entityData y role cambia a veterinaria/doctor y no hay entityId ni user.entityId -> crear entidad mínima (comportamiento previo)
-      if ((updates.role === 'veterinaria' || updates.role === 'doctor') && !updates.entityId && !user.entityId) {
+      // Si no hay entityData y role cambia a veterinaria y no hay entityId ni user.entityId -> crear entidad mínima (comportamiento previo)
+      if (updates.role === 'veterinaria' && !updates.entityId && !user.entityId) {
         const publicName = (user.name && String(user.name).trim()) || (user.email ? `Entidad de ${user.email}` : 'Entidad');
         try {
-          if (updates.role === 'veterinaria') {
-            const veterinariaData = {
-              name: publicName,
-              address: user.direccion || '',
-              phone: user.telefono || '',
-              owner: user._id,
-              location: user.location || undefined,
-            };
-            createdEntity = await Veterinaria.create(veterinariaData);
-            createdEntityType = 'veterinaria';
-            updates.entityId = createdEntity._id;
-          } else if (updates.role === 'doctor') {
-            const doctorData = {
-              name: publicName,
-              specialty: '',
-              address: user.direccion || '',
-              phone: user.telefono || '',
-              owner: user._id,
-              location: user.location || undefined,
-            };
-            createdEntity = await Doctor.create(doctorData);
-            createdEntityType = 'doctor';
-            updates.entityId = createdEntity._id;
-          }
+          const veterinariaData = {
+            name: publicName,
+            address: user.direccion || '',
+            phone: user.telefono || '',
+            owner: user._id,
+            location: user.location || undefined,
+          };
+          createdEntity = await Veterinaria.create(veterinariaData);
+          createdEntityType = 'veterinaria';
+          updates.entityId = createdEntity._id;
         } catch (createErr) {
           console.error('Error creando entidad mínima en updateUser:', createErr);
           return res.status(400).json({ success: false, message: 'No se pudo crear la entidad asociada', detail: createErr.message });
@@ -212,7 +181,6 @@ exports.updateUser = async (req, res, next) => {
         if (createdEntity) {
           try {
             if (createdEntityType === 'veterinaria') await Veterinaria.findByIdAndDelete(createdEntity._id);
-            if (createdEntityType === 'doctor') await Doctor.findByIdAndDelete(createdEntity._id);
           } catch (rbErr) {
             console.error('Error durante rollback (eliminar entidad creada):', rbErr);
           }
@@ -224,7 +192,6 @@ exports.updateUser = async (req, res, next) => {
       if (createdEntity) {
         try {
           if (createdEntityType === 'veterinaria') await Veterinaria.findByIdAndDelete(createdEntity._id);
-          if (createdEntityType === 'doctor') await Doctor.findByIdAndDelete(createdEntity._id);
         } catch (rbErr) {
           console.error('Error durante rollback (eliminar entidad creada):', rbErr);
         }
@@ -239,8 +206,8 @@ exports.updateUser = async (req, res, next) => {
 };
 
 /**
- * Helper para construir payload específico según tipo de entidad (veterinaria|doctor)
- * entityData es el objeto que viene desde el cliente (puede incluir name,address,phone,latitude,longitude,benefits,discount,specialty,url,horario,...)
+ * Helper para construir payload específico según tipo de entidad (veterinaria)
+ * entityData es el objeto que viene desde el cliente (puede incluir name,address,phone,latitude,longitude,benefits,discount,openingHours,...)
  */
 function buildEntityPayload(type, entityData) {
   const payload = {};
@@ -263,10 +230,6 @@ function buildEntityPayload(type, entityData) {
     if (typeof entityData.benefits !== 'undefined') payload.benefits = entityData.benefits;
     if (typeof entityData.discount !== 'undefined') payload.discount = entityData.discount;
     if (typeof entityData.openingHours !== 'undefined') payload.openingHours = entityData.openingHours;
-  } else if (type === 'doctor') {
-    if (typeof entityData.specialty !== 'undefined') payload.specialty = entityData.specialty;
-    if (typeof entityData.url !== 'undefined') payload.url = entityData.url;
-    if (typeof entityData.horario !== 'undefined') payload.horario = entityData.horario;
   }
 
   return payload;
@@ -296,10 +259,10 @@ exports.deleteUser = async (req, res, next) => {
 };
 
 
-/* aca tenemos un buscador de veterinarias y doctors para admin */
+/* aca tenemos un buscador de veterinarias para admin */
 async function collectReferencedEntityIdsFor(type) {
-    // type: 'veterinaria' | 'doctor'
-    // Recopila ids desde distintos campos en Users (entityId, pharmacy, doctor, legacy fields)
+    // type: 'veterinaria'
+    // Recopila ids desde distintos campos en Users (entityId, legacy fields)
     const ids = new Set();
 
     // entityId field (general)
@@ -316,11 +279,6 @@ async function collectReferencedEntityIdsFor(type) {
         byVeterinaria.forEach((v) => ids.add(String(v)));
         // also consider users with role 'veterinaria' that might have entityId null (they shouldn't be referenced)
         // but the above covers entityId references.
-    } else if (type === "doctor") {
-        const byDoctor = await User.find({ doctor: { $ne: null } }).distinct(
-            "doctor"
-        );
-        byDoctor.forEach((v) => ids.add(String(v)));
     }
 
     // Also check users whose role equals the type and with non-null entityId (already covered, but keep)
@@ -470,138 +428,6 @@ exports.deleteVeterinariaAdmin = async (req, res, next) => {
         next(err);
     }
 };
-
-/* --------------- DOCTORS -------------- */
-/**
- * GET /api/admin/doctors
- * Query: page, limit, q (search by name/specialty), unassigned=true (only entities without owner)
- */
-exports.listDoctors = async (req, res, next) => {
-    try {
-        const { limit, skip, q, page } = parseListQuery(req);
-        const filter = {};
-        if (q) {
-            filter.$or = [
-                { name: { $regex: q, $options: "i" } },
-                { specialty: { $regex: q, $options: "i" } },
-            ];
-        }
-
-        const unassigned =
-            req.query.unassigned === "true" || req.query.unassigned === true;
-        if (unassigned) {
-            const referencedIds = await collectReferencedEntityIdsFor("doctor");
-            if (referencedIds.length > 0) {
-                filter._id = { $nin: referencedIds };
-            }
-        }
-
-        const [items, total] = await Promise.all([
-            Doctor.find(filter).skip(skip).limit(limit).lean(),
-            Doctor.countDocuments(filter),
-        ]);
-
-        return res.json({
-            success: true,
-            data: { doctors: items, meta: { total, page, limit } },
-        });
-    } catch (err) {
-        next(err);
-    }
-};
-/**
- * GET /api/admin/doctors/:id
- */
-exports.getDoctor = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        if (!mongoose.Types.ObjectId.isValid(id))
-            return res
-                .status(400)
-                .json({ success: false, message: "ID inválido" });
-        const doc = await Doctor.findById(id).lean();
-        if (!doc)
-            return res
-                .status(404)
-                .json({ success: false, message: "Doctor no encontrado" });
-        return res.json({ success: true, data: { doctor: doc } });
-    } catch (err) {
-        next(err);
-    }
-};
-
-/**
- * PUT /api/admin/doctors/:id
- */
-exports.updateDoctorAdmin = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        if (!mongoose.Types.ObjectId.isValid(id))
-            return res
-                .status(400)
-                .json({ success: false, message: "ID inválido" });
-
-        const allowed = [
-            "name",
-            "specialty",
-            "address",
-            "phone",
-            "url",
-            "horario",
-            "isActive",
-        ];
-        const updates = {};
-        allowed.forEach((k) => {
-            if (typeof req.body[k] !== "undefined") updates[k] = req.body[k];
-        });
-
-        if (
-            typeof req.body.latitude !== "undefined" &&
-            typeof req.body.longitude !== "undefined"
-        ) {
-            const lat = parseFloat(req.body.latitude);
-            const lng = parseFloat(req.body.longitude);
-            if (!Number.isNaN(lat) && !Number.isNaN(lng))
-                updates.location = { type: "Point", coordinates: [lng, lat] };
-        }
-
-        const updated = await Doctor.findByIdAndUpdate(id, updates, {
-            new: true,
-            runValidators: true,
-        }).lean();
-        if (!updated)
-            return res
-                .status(404)
-                .json({ success: false, message: "Doctor no encontrado" });
-        return res.json({ success: true, data: { doctor: updated } });
-    } catch (err) {
-        next(err);
-    }
-};
-
-/**
- * DELETE /api/admin/doctors/:id
- */
-exports.deleteDoctorAdmin = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        if (!mongoose.Types.ObjectId.isValid(id))
-            return res
-                .status(400)
-                .json({ success: false, message: "ID inválido" });
-        const deleted = await Doctor.findByIdAndDelete(id).lean();
-        if (!deleted)
-            return res
-                .status(404)
-                .json({ success: false, message: "Doctor no encontrado" });
-        return res.json({ success: true, message: "Doctor eliminado" });
-    } catch (err) {
-        next(err);
-    }
-};
-
-
-
 
 
 /* Emergency */
@@ -764,35 +590,8 @@ exports.createVeterinaria = async (req, res, next) => {
   }
 };
 
-// POST /api/admin/doctors
-exports.createDoctor = async (req, res, next) => {
-  try {
-    const { name, specialty, address, phone, url, horario, latitude, longitude, isActive } = req.body;
-    const payload = {
-      name: name || 'Doctor',
-      specialty: specialty || '',
-      address: address || '',
-      phone: phone || '',
-      url: url || '',
-      horario: horario || '',
-      isActive: typeof isActive !== 'undefined' ? !!isActive : true,
-    };
-    if (typeof latitude !== 'undefined' && typeof longitude !== 'undefined') {
-      const lat = parseFloat(latitude);
-      const lng = parseFloat(longitude);
-      if (!Number.isNaN(lat) && !Number.isNaN(lng)) {
-        payload.location = { type: 'Point', coordinates: [lng, lat] };
-      }
-    }
-    const created = await Doctor.create(payload);
-    return res.status(201).json({ success: true, data: { doctor: created } });
-  } catch (err) {
-    next(err);
-  }
-};
-
 // POST /api/admin/users
-// crea usuario; si viene entityData y role es veterinaria/doctor crea la entidad y la vincula
+// crea usuario; si viene entityData y role es veterinaria crea la entidad y la vincula
 exports.createUser = async (req, res, next) => {
   try {
     const { name, email, password, role, entityId, entityData, latitude, longitude } = req.body;
@@ -819,49 +618,27 @@ exports.createUser = async (req, res, next) => {
     // If the request includes entityId explicitly, validate and set
     if (entityId) {
       if (!mongoose.Types.ObjectId.isValid(entityId)) return res.status(400).json({ success: false, message: 'entityId inválido' });
-      // basic validation: if role veterinaria check veterinaria exists, if doctor check doctor exists
+      // basic validation: if role veterinaria check veterinaria exists
       if (role === 'veterinaria') {
         const ph = await Veterinaria.findById(entityId).lean();
         if (!ph) return res.status(400).json({ success: false, message: 'Veterinaria entityId no encontrada' });
-      } else if (role === 'doctor') {
-        const d = await Doctor.findById(entityId).lean();
-        if (!d) return res.status(400).json({ success: false, message: 'Doctor entityId no encontrado' });
       }
       user.entityId = entityId;
-    } else if (entityData && (role === 'veterinaria' || role === 'doctor')) {
+    } else if (entityData && role === 'veterinaria') {
       // create entity with data and link
-      let created = null;
-      if (role === 'veterinaria') {
-        const payload = {
-          name: entityData.name || name,
-          address: entityData.address || '',
-          phone: entityData.phone || '',
-        };
-        if (typeof entityData.latitude !== 'undefined' && typeof entityData.longitude !== 'undefined') {
-          const lat = parseFloat(entityData.latitude);
-          const lng = parseFloat(entityData.longitude);
-          if (!Number.isNaN(lat) && !Number.isNaN(lng)) payload.location = { type: 'Point', coordinates: [lng, lat] };
-        }
-        payload.owner = user._id;
-        created = await Veterinaria.create(payload);
-        user.entityId = created._id;
-      } else if (role === 'doctor') {
-        const payload = {
-          name: entityData.name || name,
-          specialty: entityData.specialty || '',
-          address: entityData.address || '',
-          phone: entityData.phone || '',
-          url: entityData.url || '',
-        };
-        if (typeof entityData.latitude !== 'undefined' && typeof entityData.longitude !== 'undefined') {
-          const lat = parseFloat(entityData.latitude);
-          const lng = parseFloat(entityData.longitude);
-          if (!Number.isNaN(lat) && !Number.isNaN(lng)) payload.location = { type: 'Point', coordinates: [lng, lat] };
-        }
-        payload.owner = user._id;
-        created = await Doctor.create(payload);
-        user.entityId = created._id;
+      const payload = {
+        name: entityData.name || name,
+        address: entityData.address || '',
+        phone: entityData.phone || '',
+      };
+      if (typeof entityData.latitude !== 'undefined' && typeof entityData.longitude !== 'undefined') {
+        const lat = parseFloat(entityData.latitude);
+        const lng = parseFloat(entityData.longitude);
+        if (!Number.isNaN(lat) && !Number.isNaN(lng)) payload.location = { type: 'Point', coordinates: [lng, lat] };
       }
+      payload.owner = user._id;
+      const created = await Veterinaria.create(payload);
+      user.entityId = created._id;
     }
 
     await user.save();
@@ -1024,7 +801,7 @@ exports.getDashboardMetrics = async (req, res, next) => {
             ]);
         } else {
             targetAggPromise = (async () => {
-                const types = ["doctor", "veterinaria", null];
+                const types = ["veterinaria", null];
                 const out = [];
                 for (const t of types) {
                     const filter =
@@ -1137,7 +914,6 @@ exports.getDashboardMetrics = async (req, res, next) => {
             const key = d.toISOString().slice(0, 10);
             seriesMap[key] = {
                 day: key,
-                doctor: 0,
                 veterinaria: 0,
                 other: 0,
                 total: 0,
@@ -1150,13 +926,11 @@ exports.getDashboardMetrics = async (req, res, next) => {
             if (!seriesMap[day])
                 seriesMap[day] = {
                     day,
-                    doctor: 0,
                     veterinaria: 0,
                     other: 0,
                     total: 0,
                 };
-            if (type === "doctor") seriesMap[day].doctor += cnt;
-            else if (type === "veterinaria") seriesMap[day].veterinaria += cnt;
+            if (type === "veterinaria") seriesMap[day].veterinaria += cnt;
             else seriesMap[day].other += cnt;
             seriesMap[day].total += cnt;
         });

@@ -130,8 +130,8 @@ exports.getEmergency = async (req, res, next) => {
 };
 
 /**
- * @desc    Get nearby doctors for current user
- * @route   GET /api/doctors/nearby
+ * @desc    Get nearby emergencies for current user
+ * @route   GET /api/emergencies/nearby
  * @access  Private
  */
 exports.getNearbyEmergencies = async (req, res, next) => {
@@ -257,15 +257,8 @@ exports.createEmergency = async (req, res, next) => {
 };
 
 /**
- * @desc    Update doctor
- * @route   PUT /api/doctors/:id
- * @access  Private
- */
-
-
-/**
- * Update doctor (only owner or admin)
- * PUT /api/doctors/:id
+ * Update emergency (only owner or admin)
+ * PUT /api/emergencies/:id
  */
 exports.updateEmergency = async (req, res, next) => {
     try {
@@ -279,7 +272,7 @@ exports.updateEmergency = async (req, res, next) => {
             isActive,
         } = req.body;
 
-        // Find doctor
+        // Find emergency
         const emergency = await Emergency.findById(req.params.id);
         if (!emergency) {
             return res
@@ -368,8 +361,8 @@ exports.updateEmergency = async (req, res, next) => {
 
 
 /**
- * @desc    Delete doctor
- * @route   DELETE /api/doctors/:id
+ * @desc    Delete emergency
+ * @route   DELETE /api/emergencies/:id
  * @access  Private
  */
 exports.deleteEmergency = async (req, res, next) => {

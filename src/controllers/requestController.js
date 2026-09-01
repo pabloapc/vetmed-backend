@@ -1,6 +1,5 @@
 const Request = require("../models/Request");
 const Veterinaria = require("../models/Veterinaria");
-const Doctor = require("../models/Doctor");
 const User = require("../models/User");
 
  //const { sendNotificationEmail } = require("../utils/emailService");
@@ -12,21 +11,18 @@ function generate6Digit() {
 }
 const TOKEN_TTL_MS = 2 * 60 * 1000; // 2 minutos
 
-// Resolve and validate target: accepts targetType+targetId, or veterinariaId/doctorId
+// Resolve and validate target: accepts targetType+targetId, or veterinariaId
 async function resolveTarget(body) {
-    let { targetType, targetId, veterinariaId, doctorId } = body;
+    let { targetType, targetId, veterinariaId } = body;
 
     if (!targetType && veterinariaId) {
         targetType = "veterinaria";
         targetId = veterinariaId;
-    } else if (!targetType && doctorId) {
-        targetType = "doctor";
-        targetId = doctorId;
     }
 
     if (!targetType || !targetId) {
         throw new Error(
-            "targetType y targetId (o veterinariaId/doctorId) son requeridos"
+            "targetType y targetId (o veterinariaId) son requeridos"
         );
     }
 
@@ -35,10 +31,6 @@ async function resolveTarget(body) {
         const p = await Veterinaria.findById(targetId).lean();
         if (!p) throw new Error("Veterinaria no encontrada para el target");
         return { targetType, targetId: p._id, targetName: p.name };
-    } else if (targetType === "doctor") {
-        const d = await Doctor.findById(targetId).lean();
-        if (!d) throw new Error("Doctor no encontrado para el target");
-        return { targetType, targetId: d._id, targetName: d.name };
     } else {
         // allow other types but do not validate
         return { targetType, targetId };
@@ -56,7 +48,7 @@ exports.createRequest = async (req, res, next) => {
             metadata,
         } = req.body;
 
-        // Resolve target (supports veterinariaId/doctorId or targetType+targetId)
+        // Resolve target (supports veterinariaId or targetType+targetId)
         let resolved;
         try {
             resolved = await resolveTarget(req.body);
@@ -121,11 +113,6 @@ exports.createRequest = async (req, res, next) => {
             ).lean();
         if (populated.targetType === "veterinaria")
             populated.target = await Veterinaria.findById(
-                populated.targetId,
-                "name address"
-            ).lean();
-        if (populated.targetType === "doctor")
-            populated.target = await Doctor.findById(
                 populated.targetId,
                 "name address"
             ).lean();
@@ -199,34 +186,27 @@ exports.getRequestsForUser = async (req, res, next) => {
 
     // Recolectar targetIds por tipo para hacer consultas en batch
     const veterinariaIds = new Set();
-    const doctorIds = new Set();
 
     requests.forEach((r) => {
       if (r.targetType === 'veterinaria' && r.targetId) veterinariaIds.add(String(r.targetId));
-      if (r.targetType === 'doctor' && r.targetId) doctorIds.add(String(r.targetId));
       // Si hay legacy field `veterinaria` y no hay targetType, también considerarlo
       if (!r.targetType && r.veterinaria) veterinariaIds.add(String(r.veterinaria));
     });
 
     // Buscar documentos targets en batch
-    const [veterinariasList, doctorsList] = await Promise.all([
-      veterinariaIds.size ? Veterinaria.find({ _id: { $in: Array.from(veterinariaIds) } }, 'name address').lean() : [],
-      doctorIds.size ? Doctor.find({ _id: { $in: Array.from(doctorIds) } }, 'name address').lean() : [],
-    ]);
+    const veterinariasList = veterinariaIds.size
+      ? await Veterinaria.find({ _id: { $in: Array.from(veterinariaIds) } }, 'name address').lean()
+      : [];
 
     const veterinariasMap = {};
-    const doctorsMap = {};
 
     veterinariasList.forEach((p) => { veterinariasMap[String(p._id)] = p; });
-    doctorsList.forEach((d) => { doctorsMap[String(d._1?._id || d._id)] = d; }); // safe mapping
 
     // Adjuntar campo `target` a cada request con la info correspondiente
     const enriched = requests.map((r) => {
       const out = Object.assign({}, r);
       if (r.targetType === 'veterinaria' && r.targetId) {
         out.target = veterinariasMap[String(r.targetId)] || null;
-      } else if (r.targetType === 'doctor' && r.targetId) {
-        out.target = doctorsMap[String(r.targetId)] || null;
       } else if (!r.targetType && r.veterinaria) {
         out.target = veterinariasMap[String(r.veterinaria)] || null;
       } else {
@@ -292,11 +272,6 @@ exports.getRequestById = async (req, res, next) => {
                 reqDoc.targetId,
                 "name address"
             ).lean();
-        if (reqDoc.targetType === "doctor")
-            reqDoc.target = await Doctor.findById(
-                reqDoc.targetId,
-                "name address"
-            ).lean();
 
         return res
             .status(200)
@@ -304,142 +279,6 @@ exports.getRequestById = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-};
-
-// PUT /api/requests/:id/status
-// exports.updateRequestStatus = async (req, res, next) => {
-//     try {
-//         const { id } = req.params;
-//         const { status } = req.body;
-//         if (!["pending", "accepted", "fulfilled", "cancelled"].includes(status))
-//             return res
-//                 .status(400)
-//                 .json({ success: false, message: "Estado inválido" });
-
-//         const reqDoc = await Request.findById(id);
-//         if (!reqDoc)
-//             return res
-//                 .status(404)
-//                 .json({ success: false, message: "Solicitud no encontrada" });
-
-//         const user = req.user;
-//         if (!user)
-//             return res
-//                 .status(403)
-//                 .json({ success: false, message: "Acceso denegado" });
-
-//         if (user.role === "pharmacy") {
-//             if (
-//                 String(user.entityId) !== String(reqDoc.targetId) ||
-//                 reqDoc.targetType !== "pharmacy"
-//             ) {
-//                 return res
-//                     .status(403)
-//                     .json({
-//                         success: false,
-//                         message: "No autorizado para gestionar esta solicitud",
-//                     });
-//             }
-//         } else if (user.role === "doctor") {
-//             if (
-//                 String(user.entityId) !== String(reqDoc.targetId) ||
-//                 reqDoc.targetType !== "doctor"
-//             ) {
-//                 return res
-//                     .status(403)
-//                     .json({
-//                         success: false,
-//                         message: "No autorizado para gestionar esta solicitud",
-//                     });
-//             }
-//         } else {
-//             // allow requester to cancel their own
-//             const userId = user._id || user.id || null;
-//             if (status === "cancelled") {
-//                 if (!reqDoc.user || String(reqDoc.user) !== String(userId)) {
-//                     return res
-//                         .status(403)
-//                         .json({
-//                             success: false,
-//                             message: "Solo el solicitante puede cancelar",
-//                         });
-//                 }
-//             } else {
-//                 return res
-//                     .status(403)
-//                     .json({ success: false, message: "No autorizado" });
-//             }
-//         }
-
-//         reqDoc.status = status;
-//         await reqDoc.save();
-
-//         if (reqDoc.user) {
-//             reqDoc.metadata = reqDoc.metadata || {};
-//             reqDoc.metadata.lastStatusChangedBy = user._id || user.id || null;
-//             reqDoc.metadata.lastStatusChangeAt = new Date();
-//             await reqDoc.save();
-//             // TODO: notificar al usuario (email/socket)
-//         }
-
-//         const updated = await Request.findById(id).lean();
-//         if (updated.user)
-//             updated.user = await User.findById(
-//                 updated.user,
-//                 "name email telefono"
-//             ).lean();
-//         if (updated.targetType === "pharmacy")
-//             updated.target = await Pharmacy.findById(
-//                 updated.targetId,
-//                 "name address"
-//             ).lean();
-//         if (updated.targetType === "doctor")
-//             updated.target = await Doctor.findById(
-//                 updated.targetId,
-//                 "name address"
-//             ).lean();
-
-//         return res
-//             .status(200)
-//             .json({
-//                 success: true,
-//                 message: "Estado actualizado",
-//                 data: { request: updated },
-//             });
-//     } catch (error) {
-//         console.error("updateRequestStatus error:", error);
-//         next(error);
-//     }
-// };
-
-
-// Agregar esta función al controller (por ejemplo cerca de getRequestsForPharmacy)
-
-exports.getRequestsForDoctor = async (req, res, next) => {
-  try {
-    const user = req.user;
-    if (!user || user.role !== 'doctor') {
-      return res.status(403).json({ success: false, message: 'Acceso denegado' });
-    }
-
-    const targetId = user.entityId;
-    if (!targetId) {
-      return res.status(400).json({ success: false, message: 'El doctor no está vinculado al usuario' });
-    }
-
-    // Buscamos solicitudes con targetType === 'doctor' y targetId === entityId
-    const requests = await Request.find({ targetType: 'doctor', targetId })
-      .sort({ createdAt: -1 })
-      .populate('user', 'name email telefono')
-      .lean();
-
-    // Para compatibilidad si hay userSnapshot, preferir user info cuando exista
-    // La respuesta mantiene la estructura { data: { requests } }
-    return res.status(200).json({ success: true, data: { requests } });
-  } catch (error) {
-    console.error('getRequestsForDoctor error:', error);
-    next(error);
-  }
 };
 
 exports.getRequestsForEmergency = async (req, res, next) => {
@@ -481,7 +320,7 @@ exports.getRequestsForEmergency = async (req, res, next) => {
 /**
  * PUT /requests/:id/status
  * Body: { status: 'accepted'|'fulfilled'|'cancelled', metadata?: { callUrl?: string, scheduledAt?: string } }
- * - Solo el owner del target (farmacia/doctor) o admin puede cambiar estados relacionados a la entidad.
+ * - Solo el owner del target (veterinaria) o admin puede cambiar estados relacionados a la entidad.
  * - scheduledAt debe ser ISO datetime o timestamp.
  */
 exports.updateRequestStatus = async (req, res, next) => {
@@ -522,10 +361,7 @@ exports.updateRequestStatus = async (req, res, next) => {
             "target",
             "targetId",
             "target_id",
-            "doctor",
             "pharmacy",
-            "doctorId",
-            "doctor_id",
             "pharmacyId",
             "pharmacy_id",
             "recipient",
@@ -540,7 +376,7 @@ exports.updateRequestStatus = async (req, res, next) => {
         });
 
         // También revisar campos que pueden ser objetos poblados
-        ["target", "doctor", "pharmacy", "recipient"].forEach((k) => {
+        ["target", "pharmacy", "recipient"].forEach((k) => {
             const val = request[k];
             if (val && typeof val === "object") {
                 const id = extractId(val._id ?? val.id ?? val);
@@ -560,21 +396,9 @@ exports.updateRequestStatus = async (req, res, next) => {
             if (userEntityId && candidates.has(userEntityId)) isOwner = true;
             if (!isOwner && userId && candidates.has(userId)) isOwner = true;
 
-            // 2) comprobar owner en Doctor/Pharmacy si aún no autorizado
+            // 2) comprobar owner en Pharmacy si aún no autorizado
             if (!isOwner && candidates.size > 0) {
                 for (const cid of candidates) {
-                    // intentar doctor
-                    try {
-                        const doc = await Doctor.findById(cid)
-                            .select("owner")
-                            .lean();
-                        if (doc && doc.owner && String(doc.owner) === userId) {
-                            isOwner = true;
-                            break;
-                        }
-                    } catch (e) {
-                        // ignore lookup error for this id
-                    }
                     // intentar pharmacy
                     try {
                         const ph = await Pharmacy.findById(cid)
@@ -648,51 +472,7 @@ exports.updateRequestStatus = async (req, res, next) => {
     }
 };
 
-// PUT /api/requests/:id/reply
-// Body: { }  (no body required, el usuario confirma)
-// exports.replyToRequest = async (req, res, next) => {
-//   try {
-//     const id = req.params.id;
-//     const user = req.user;
-//     if (!user) return res.status(401).json({ success: false, message: 'No autenticado' });
-
-//     const request = await Request.findById(id);
-//     if (!request) return res.status(404).json({ success: false, message: 'Solicitud no encontrada' });
-
-//     // Solo el usuario que creó la request (request.user) o admin pueden confirmar
-//     const isOwner = (request.user && String(request.user) === String(user._id)) || user.role === 'admin';
-//     if (!isOwner) {
-//       return res.status(403).json({ success: false, message: 'No autorizado' });
-//     }
-
-//     // Solo permitir confirmación cuando el doctor ya marcó la request como 'fulfilled'
-//     if (request.status !== 'fulfilled') {
-//       return res.status(400).json({ success: false, message: 'Solo se puede confirmar cuando la solicitud está en estado "Cumplida".' });
-//     }
-
-//     // Si ya confirmó, devolver OK
-//     if (request.status_reply) {
-//       return res.json({ success: true, message: 'Solicitud ya confirmada por el paciente', data: { request } });
-//     }
-
-//     // Marcar confirmación
-//     request.status_reply = true;
-//     request.status_reply_at = new Date();
-
-//     // Opcional: si querés marcar otra propiedad final (p. ej. completedAt) podrías hacerlo aquí.
-//     await request.save();
-
-//     // Opcional: notificar al doctor que el paciente confirmó (implementá notificación si la tenés)
-//     // notifyDoctorRequestConfirmed(request);
-
-//     return res.json({ success: true, message: 'Confirmación registrada', data: { request } });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-
-
-//version que envia mail al doctor notificando la confirmacion del paciente
+//version que envia mail al owner de la veterinaria notificando la confirmacion del paciente
 
 exports.replyToRequest = async (req, res, next) => {
     try {
@@ -722,7 +502,7 @@ exports.replyToRequest = async (req, res, next) => {
                 .json({ success: false, message: "No autorizado" });
         }
 
-        // Only allow patient confirmation when doctor already marked as fulfilled
+        // Only allow patient confirmation when the veterinaria already marked as fulfilled
         if (request.status !== "fulfilled") {
             return res.status(400).json({
                 success: false,
@@ -756,23 +536,20 @@ exports.replyToRequest = async (req, res, next) => {
             .populate("status_reply_by", "name email")
             .execPopulate?.();
 
-        // Notify doctor/owner if we can find them
+        // Notify target owner if we can find them
         try {
-            // Determine target owner/doctor user email
+            // Determine target owner/veterinaria user email
             let ownerUser = null;
-            if (String(request.targetType) === "doctor") {
+            if (String(request.targetType) === "veterinaria") {
                 // target might be populated or an id
-                const docId = request.target;
-                const doc = await Doctor.findById(docId).lean();
-                if (doc) {
-                    // doctor may have owner id
-                    if (doc.owner) {
-                        ownerUser = await User.findById(doc.owner).lean();
-                    } else if (doc.email) {
-                        ownerUser = { email: doc.email, name: doc.name };
+                const vetId = request.target || request.targetId;
+                const vet = await Veterinaria.findById(vetId).lean();
+                if (vet) {
+                    if (vet.owner) {
+                        ownerUser = await User.findById(vet.owner).lean();
+                    } else if (vet.email) {
+                        ownerUser = { email: vet.email, name: vet.name };
                     }
-                    console.log("Doctor encontrado para notificación:", ownerUser);
-                    console.log("Doctor data:", doc.name, doc.email);
                 }
             } else if (String(request.targetType) === "pharmacy") {
                 const phId = request.target;
@@ -796,7 +573,7 @@ exports.replyToRequest = async (req, res, next) => {
                 const html = `
           <div style="font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial;">
             <p>Hola ${
-                ownerUser.name ? escapeHtml(ownerUser.name) : "Doctor"
+                ownerUser.name ? escapeHtml(ownerUser.name) : "Veterinario"
             },</p>
             <p>La solicitud <strong>${escapeHtml(
                 request.token || String(request._id)
@@ -821,7 +598,7 @@ exports.replyToRequest = async (req, res, next) => {
             }
         } catch (notifyErr) {
             console.error(
-                "Error notificando al doctor/owner tras confirmación:",
+                "Error notificando al owner tras confirmación:",
                 notifyErr
             );
             // don't block user flow on notification failure
@@ -869,9 +646,6 @@ exports.listRequests = async (req, res, next) => {
       // sin restricción extra
     } else if (user.role === "pharmacy") {
       filter.targetType = "pharmacy";
-      filter.targetId = user.entityId;
-    } else if (user.role === "doctor") {
-      filter.targetType = "doctor";
       filter.targetId = user.entityId;
     } else if (user.role === "emergency") {
       filter.targetType = "emergency";
