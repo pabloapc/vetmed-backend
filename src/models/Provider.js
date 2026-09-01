@@ -5,7 +5,7 @@ const providerSchema = new mongoose.Schema(
         name: { type: String, required: true, trim: true },
         slug: { type: String, trim: true, index: true },
         code: { type: String, trim: true, index: true },
-        category: { type: String, default: "" }, // e.g. 'farmacia', 'doctor', 'odontologia', 'laboratorio', 'kinesiologia'
+        category: { type: String, default: "" }, // e.g. 'veterinaria', 'doctor', 'odontologia', 'laboratorio', 'kinesiologia'
         categories: { type: [String], default: [] }, // tags categorización
         description: { type: String, default: "" },
         address: { type: String, default: "" },

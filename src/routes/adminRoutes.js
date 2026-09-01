@@ -15,36 +15,36 @@ router.get("/users/:id", protect, adminOnly, adminController.getUser);
 router.put("/users/:id", protect, adminOnly, adminController.updateUser);
 router.delete("/users/:id", protect, adminOnly, adminController.deleteUser);
 
-// Pharmacies
-router.get("/pharmacies", protect, adminOnly, adminController.listPharmacies);
-router.get("/pharmacies/:id", protect, adminOnly, adminController.getPharmacy);
+// Veterinarias
+router.get("/veterinarias", protect, adminOnly, adminController.listVeterinarias);
+router.get("/veterinarias/:id", protect, adminOnly, adminController.getVeterinaria);
 router.put(
-    "/pharmacies/:id",
+    "/veterinarias/:id",
     protect,
     adminOnly,
-    adminController.updatePharmacyAdmin
+    adminController.updateVeterinariaAdmin
 );
 router.delete(
-    "/pharmacies/:id",
+    "/veterinarias/:id",
     protect,
     adminOnly,
-    adminController.deletePharmacyAdmin
+    adminController.deleteVeterinariaAdmin
 );
 
 // router.patch(
-//     "/pharmacies/:id/vademecum",
+//     "/veterinarias/:id/vademecum",
 //     protect,
 //     adminOnly,
 //     upload.single("vademecumFile"),
-//     adminController.uploadPharmacyVademecum
+//     adminController.uploadVeterinariaVademecum
 // );
 
 router.patch(
-  "/pharmacies/:id/vademecum",
+  "/veterinarias/:id/vademecum",
   protect,
   adminOnly,
   uploadVademecum.single("vademecumFile"),
-  adminController.uploadPharmacyVademecum
+  adminController.uploadVeterinariaVademecum
 );
 
 
@@ -84,7 +84,7 @@ router.delete(
 
 // ... existentes requires ...
 router.post('/users', protect, adminOnly, adminController.createUser);
-router.post('/pharmacies', protect, adminOnly, adminController.createPharmacy);
+router.post('/veterinarias', protect, adminOnly, adminController.createVeterinaria);
 router.post('/doctors', protect, adminOnly, adminController.createDoctor);
 router.post('/emergencies', protect, adminOnly, adminController.createEmergency);
 

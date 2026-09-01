@@ -4,7 +4,7 @@ const emergencySchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            required: [true, "Por favor ingrese el nombre de la farmacia"],
+            required: [true, "Por favor ingrese el nombre de la emergencia"],
             trim: true,
         },
         address: {

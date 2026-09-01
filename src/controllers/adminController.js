@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const Pharmacy = require("../models/Pharmacy");
+const Veterinaria = require("../models/Veterinaria");
 const Doctor = require("../models/Doctor");
 const Emergency = require("../models/Emergency");
 const mongoose = require("mongoose");
@@ -81,7 +81,7 @@ exports.getUser = async (req, res, next) => {
 // Reemplaza SOLO la función updateUser en src/controllers/adminController.js
 // Asegurate que arriba del archivo están estos requires:
 // const User = require('../models/User');
-// const Pharmacy = require('../models/Pharmacy');
+// const Veterinaria = require('../models/Veterinaria');
 // const Doctor = require('../models/Doctor');
 // const mongoose = require('mongoose');
 
@@ -116,29 +116,29 @@ exports.updateUser = async (req, res, next) => {
       if (!mongoose.Types.ObjectId.isValid(updates.entityId)) {
         return res.status(400).json({ success: false, message: 'entityId inválido' });
       }
-      if (targetRole === 'pharmacy') {
-        const exist = await Pharmacy.findById(updates.entityId).lean();
-        if (!exist) return res.status(400).json({ success: false, message: 'Pharmacy (entityId) no encontrada' });
+      if (targetRole === 'veterinaria') {
+        const exist = await Veterinaria.findById(updates.entityId).lean();
+        if (!exist) return res.status(400).json({ success: false, message: 'Veterinaria (entityId) no encontrada' });
       } else if (targetRole === 'doctor') {
         const exist = await Doctor.findById(updates.entityId).lean();
         if (!exist) return res.status(400).json({ success: false, message: 'Doctor (entityId) no encontrado' });
       } else {
-        // Si role no es pharmacy/doctor pero se provee entityId, permitimos la asignación pero no validamos colección
+        // Si role no es veterinaria/doctor pero se provee entityId, permitimos la asignación pero no validamos colección
       }
     }
 
     // Si se envió entityData:
     if (entityData) {
-      // entityData solo tiene sentido cuando role objetivo es pharmacy o doctor
-      if (targetRole !== 'pharmacy' && targetRole !== 'doctor') {
-        return res.status(400).json({ success: false, message: 'entityData sólo es válido para role "pharmacy" o "doctor"' });
+      // entityData solo tiene sentido cuando role objetivo es veterinaria o doctor
+      if (targetRole !== 'veterinaria' && targetRole !== 'doctor') {
+        return res.status(400).json({ success: false, message: 'entityData sólo es válido para role "veterinaria" o "doctor"' });
       }
 
       // Si user ya tiene entityId -> actualizar esa entidad con entityData
       if (user.entityId) {
         try {
-          if (targetRole === 'pharmacy') {
-            await Pharmacy.findByIdAndUpdate(user.entityId, buildEntityPayload('pharmacy', entityData), { new: true, runValidators: true });
+          if (targetRole === 'veterinaria') {
+            await Veterinaria.findByIdAndUpdate(user.entityId, buildEntityPayload('veterinaria', entityData), { new: true, runValidators: true });
           } else if (targetRole === 'doctor') {
             await Doctor.findByIdAndUpdate(user.entityId, buildEntityPayload('doctor', entityData), { new: true, runValidators: true });
           }
@@ -149,11 +149,11 @@ exports.updateUser = async (req, res, next) => {
       } else {
         // user no tiene entityId -> crear nueva entidad con entityData y asignar updates.entityId
         try {
-          if (targetRole === 'pharmacy') {
-            const payload = buildEntityPayload('pharmacy', entityData);
+          if (targetRole === 'veterinaria') {
+            const payload = buildEntityPayload('veterinaria', entityData);
             payload.owner = user._id;
-            createdEntity = await Pharmacy.create(payload);
-            createdEntityType = 'pharmacy';
+            createdEntity = await Veterinaria.create(payload);
+            createdEntityType = 'veterinaria';
             updates.entityId = createdEntity._id;
           } else if (targetRole === 'doctor') {
             const payload = buildEntityPayload('doctor', entityData);
@@ -168,20 +168,20 @@ exports.updateUser = async (req, res, next) => {
         }
       }
     } else {
-      // Si no hay entityData y role cambia a pharmacy/doctor y no hay entityId ni user.entityId -> crear entidad mínima (comportamiento previo)
-      if ((updates.role === 'pharmacy' || updates.role === 'doctor') && !updates.entityId && !user.entityId) {
+      // Si no hay entityData y role cambia a veterinaria/doctor y no hay entityId ni user.entityId -> crear entidad mínima (comportamiento previo)
+      if ((updates.role === 'veterinaria' || updates.role === 'doctor') && !updates.entityId && !user.entityId) {
         const publicName = (user.name && String(user.name).trim()) || (user.email ? `Entidad de ${user.email}` : 'Entidad');
         try {
-          if (updates.role === 'pharmacy') {
-            const pharmacyData = {
+          if (updates.role === 'veterinaria') {
+            const veterinariaData = {
               name: publicName,
               address: user.direccion || '',
               phone: user.telefono || '',
               owner: user._id,
               location: user.location || undefined,
             };
-            createdEntity = await Pharmacy.create(pharmacyData);
-            createdEntityType = 'pharmacy';
+            createdEntity = await Veterinaria.create(veterinariaData);
+            createdEntityType = 'veterinaria';
             updates.entityId = createdEntity._id;
           } else if (updates.role === 'doctor') {
             const doctorData = {
@@ -211,7 +211,7 @@ exports.updateUser = async (req, res, next) => {
         // rollback si algo raro pasa
         if (createdEntity) {
           try {
-            if (createdEntityType === 'pharmacy') await Pharmacy.findByIdAndDelete(createdEntity._id);
+            if (createdEntityType === 'veterinaria') await Veterinaria.findByIdAndDelete(createdEntity._id);
             if (createdEntityType === 'doctor') await Doctor.findByIdAndDelete(createdEntity._id);
           } catch (rbErr) {
             console.error('Error durante rollback (eliminar entidad creada):', rbErr);
@@ -223,7 +223,7 @@ exports.updateUser = async (req, res, next) => {
       // rollback si update falla
       if (createdEntity) {
         try {
-          if (createdEntityType === 'pharmacy') await Pharmacy.findByIdAndDelete(createdEntity._id);
+          if (createdEntityType === 'veterinaria') await Veterinaria.findByIdAndDelete(createdEntity._id);
           if (createdEntityType === 'doctor') await Doctor.findByIdAndDelete(createdEntity._id);
         } catch (rbErr) {
           console.error('Error durante rollback (eliminar entidad creada):', rbErr);
@@ -239,7 +239,7 @@ exports.updateUser = async (req, res, next) => {
 };
 
 /**
- * Helper para construir payload específico según tipo de entidad (pharmacy|doctor)
+ * Helper para construir payload específico según tipo de entidad (veterinaria|doctor)
  * entityData es el objeto que viene desde el cliente (puede incluir name,address,phone,latitude,longitude,benefits,discount,specialty,url,horario,...)
  */
 function buildEntityPayload(type, entityData) {
@@ -259,7 +259,7 @@ function buildEntityPayload(type, entityData) {
     }
   }
 
-  if (type === 'pharmacy') {
+  if (type === 'veterinaria') {
     if (typeof entityData.benefits !== 'undefined') payload.benefits = entityData.benefits;
     if (typeof entityData.discount !== 'undefined') payload.discount = entityData.discount;
     if (typeof entityData.openingHours !== 'undefined') payload.openingHours = entityData.openingHours;
@@ -296,9 +296,9 @@ exports.deleteUser = async (req, res, next) => {
 };
 
 
-/* aca tenemos un buscador de pharmacies y doctors para admin */
+/* aca tenemos un buscador de veterinarias y doctors para admin */
 async function collectReferencedEntityIdsFor(type) {
-    // type: 'pharmacy' | 'doctor'
+    // type: 'veterinaria' | 'doctor'
     // Recopila ids desde distintos campos en Users (entityId, pharmacy, doctor, legacy fields)
     const ids = new Set();
 
@@ -309,12 +309,12 @@ async function collectReferencedEntityIdsFor(type) {
     byEntityId.forEach((v) => ids.add(String(v)));
 
     // legacy/explicit fields
-    if (type === "pharmacy") {
-        const byPharmacy = await User.find({
-            pharmacy: { $ne: null },
-        }).distinct("pharmacy");
-        byPharmacy.forEach((v) => ids.add(String(v)));
-        // also consider users with role 'pharmacy' that might have entityId null (they shouldn't be referenced)
+    if (type === "veterinaria") {
+        const byVeterinaria = await User.find({
+            veterinaria: { $ne: null },
+        }).distinct("veterinaria");
+        byVeterinaria.forEach((v) => ids.add(String(v)));
+        // also consider users with role 'veterinaria' that might have entityId null (they shouldn't be referenced)
         // but the above covers entityId references.
     } else if (type === "doctor") {
         const byDoctor = await User.find({ doctor: { $ne: null } }).distinct(
@@ -334,13 +334,13 @@ async function collectReferencedEntityIdsFor(type) {
 }
 
 
-/* --------------- PHARMACIES -------------- */
+/* --------------- VETERINARIAS -------------- */
 
 /**
- * GET /api/admin/pharmacies
+ * GET /api/admin/veterinarias
  * Query: page, limit, q (search by name/address), unassigned=true (only entities without owner)
  */
-exports.listPharmacies = async (req, res, next) => {
+exports.listVeterinarias = async (req, res, next) => {
     try {
         const { limit, skip, q, page } = parseListQuery(req);
         const filter = {};
@@ -354,9 +354,9 @@ exports.listPharmacies = async (req, res, next) => {
         const unassigned =
             req.query.unassigned === "true" || req.query.unassigned === true;
         if (unassigned) {
-            // Obtiene todos los ids de pharmacies ya referenciadas por Users (entityId, pharmacy, role)
+            // Obtiene todos los ids de veterinarias ya referenciadas por Users (entityId, veterinaria, role)
             const referencedIds = await collectReferencedEntityIdsFor(
-                "pharmacy"
+                "veterinaria"
             );
             if (referencedIds.length > 0) {
                 filter._id = { $nin: referencedIds };
@@ -365,13 +365,13 @@ exports.listPharmacies = async (req, res, next) => {
         }
 
         const [items, total] = await Promise.all([
-            Pharmacy.find(filter).skip(skip).limit(limit).lean(),
-            Pharmacy.countDocuments(filter),
+            Veterinaria.find(filter).skip(skip).limit(limit).lean(),
+            Veterinaria.countDocuments(filter),
         ]);
 
         return res.json({
             success: true,
-            data: { pharmacies: items, meta: { total, page, limit } },
+            data: { veterinarias: items, meta: { total, page, limit } },
         });
     } catch (err) {
         next(err);
@@ -379,31 +379,31 @@ exports.listPharmacies = async (req, res, next) => {
 };
 
 /**
- * GET /api/admin/pharmacies/:id
+ * GET /api/admin/veterinarias/:id
  */
-exports.getPharmacy = async (req, res, next) => {
+exports.getVeterinaria = async (req, res, next) => {
     try {
         const { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id))
             return res
                 .status(400)
                 .json({ success: false, message: "ID inválido" });
-        const doc = await Pharmacy.findById(id).lean();
+        const doc = await Veterinaria.findById(id).lean();
         if (!doc)
             return res
                 .status(404)
-                .json({ success: false, message: "Farmacia no encontrada" });
-        return res.json({ success: true, data: { pharmacy: doc } });
+                .json({ success: false, message: "Veterinaria no encontrada" });
+        return res.json({ success: true, data: { veterinaria: doc } });
     } catch (err) {
         next(err);
     }
 };
 
 /**
- * PUT /api/admin/pharmacies/:id
+ * PUT /api/admin/veterinarias/:id
  * Admin editable fields: name,address,phone,benefits,discount,openingHours,isActive,location
  */
-exports.updatePharmacyAdmin = async (req, res, next) => {
+exports.updateVeterinariaAdmin = async (req, res, next) => {
     try {
         const { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id))
@@ -436,36 +436,36 @@ exports.updatePharmacyAdmin = async (req, res, next) => {
                 updates.location = { type: "Point", coordinates: [lng, lat] };
         }
 
-        const updated = await Pharmacy.findByIdAndUpdate(id, updates, {
+        const updated = await Veterinaria.findByIdAndUpdate(id, updates, {
             new: true,
             runValidators: true,
         }).lean();
         if (!updated)
             return res
                 .status(404)
-                .json({ success: false, message: "Farmacia no encontrada" });
-        return res.json({ success: true, data: { pharmacy: updated } });
+                .json({ success: false, message: "Veterinaria no encontrada" });
+        return res.json({ success: true, data: { veterinaria: updated } });
     } catch (err) {
         next(err);
     }
 };
 
 /**
- * DELETE /api/admin/pharmacies/:id
+ * DELETE /api/admin/veterinarias/:id
  */
-exports.deletePharmacyAdmin = async (req, res, next) => {
+exports.deleteVeterinariaAdmin = async (req, res, next) => {
     try {
         const { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id))
             return res
                 .status(400)
                 .json({ success: false, message: "ID inválido" });
-        const deleted = await Pharmacy.findByIdAndDelete(id).lean();
+        const deleted = await Veterinaria.findByIdAndDelete(id).lean();
         if (!deleted)
             return res
                 .status(404)
-                .json({ success: false, message: "Farmacia no encontrada" });
-        return res.json({ success: true, message: "Farmacia eliminada" });
+                .json({ success: false, message: "Veterinaria no encontrada" });
+        return res.json({ success: true, message: "Veterinaria eliminada" });
     } catch (err) {
         next(err);
     }
@@ -737,8 +737,8 @@ exports.deleteEmergencyAdmin = async (req, res, next) => {
 
 /* --------------- Veamos -------------- */
 
-// POST /api/admin/pharmacies
-exports.createPharmacy = async (req, res, next) => {
+// POST /api/admin/veterinarias
+exports.createVeterinaria = async (req, res, next) => {
   try {
     const { name, address, phone, benefits, discount, openingHours, latitude, longitude, isActive } = req.body;
     const payload = {
@@ -757,8 +757,8 @@ exports.createPharmacy = async (req, res, next) => {
         payload.location = { type: 'Point', coordinates: [lng, lat] };
       }
     }
-    const created = await Pharmacy.create(payload);
-    return res.status(201).json({ success: true, data: { pharmacy: created } });
+    const created = await Veterinaria.create(payload);
+    return res.status(201).json({ success: true, data: { veterinaria: created } });
   } catch (err) {
     next(err);
   }
@@ -792,7 +792,7 @@ exports.createDoctor = async (req, res, next) => {
 };
 
 // POST /api/admin/users
-// crea usuario; si viene entityData y role es pharmacy/doctor crea la entidad y la vincula
+// crea usuario; si viene entityData y role es veterinaria/doctor crea la entidad y la vincula
 exports.createUser = async (req, res, next) => {
   try {
     const { name, email, password, role, entityId, entityData, latitude, longitude } = req.body;
@@ -819,19 +819,19 @@ exports.createUser = async (req, res, next) => {
     // If the request includes entityId explicitly, validate and set
     if (entityId) {
       if (!mongoose.Types.ObjectId.isValid(entityId)) return res.status(400).json({ success: false, message: 'entityId inválido' });
-      // basic validation: if role pharmacy check pharmacy exists, if doctor check doctor exists
-      if (role === 'pharmacy') {
-        const ph = await Pharmacy.findById(entityId).lean();
-        if (!ph) return res.status(400).json({ success: false, message: 'Pharmacy entityId no encontrada' });
+      // basic validation: if role veterinaria check veterinaria exists, if doctor check doctor exists
+      if (role === 'veterinaria') {
+        const ph = await Veterinaria.findById(entityId).lean();
+        if (!ph) return res.status(400).json({ success: false, message: 'Veterinaria entityId no encontrada' });
       } else if (role === 'doctor') {
         const d = await Doctor.findById(entityId).lean();
         if (!d) return res.status(400).json({ success: false, message: 'Doctor entityId no encontrado' });
       }
       user.entityId = entityId;
-    } else if (entityData && (role === 'pharmacy' || role === 'doctor')) {
+    } else if (entityData && (role === 'veterinaria' || role === 'doctor')) {
       // create entity with data and link
       let created = null;
-      if (role === 'pharmacy') {
+      if (role === 'veterinaria') {
         const payload = {
           name: entityData.name || name,
           address: entityData.address || '',
@@ -843,7 +843,7 @@ exports.createUser = async (req, res, next) => {
           if (!Number.isNaN(lat) && !Number.isNaN(lng)) payload.location = { type: 'Point', coordinates: [lng, lat] };
         }
         payload.owner = user._id;
-        created = await Pharmacy.create(payload);
+        created = await Veterinaria.create(payload);
         user.entityId = created._id;
       } else if (role === 'doctor') {
         const payload = {
@@ -1024,7 +1024,7 @@ exports.getDashboardMetrics = async (req, res, next) => {
             ]);
         } else {
             targetAggPromise = (async () => {
-                const types = ["doctor", "pharmacy", null];
+                const types = ["doctor", "veterinaria", null];
                 const out = [];
                 for (const t of types) {
                     const filter =
@@ -1138,7 +1138,7 @@ exports.getDashboardMetrics = async (req, res, next) => {
             seriesMap[key] = {
                 day: key,
                 doctor: 0,
-                pharmacy: 0,
+                veterinaria: 0,
                 other: 0,
                 total: 0,
             };
@@ -1151,12 +1151,12 @@ exports.getDashboardMetrics = async (req, res, next) => {
                 seriesMap[day] = {
                     day,
                     doctor: 0,
-                    pharmacy: 0,
+                    veterinaria: 0,
                     other: 0,
                     total: 0,
                 };
             if (type === "doctor") seriesMap[day].doctor += cnt;
-            else if (type === "pharmacy") seriesMap[day].pharmacy += cnt;
+            else if (type === "veterinaria") seriesMap[day].veterinaria += cnt;
             else seriesMap[day].other += cnt;
             seriesMap[day].total += cnt;
         });
@@ -1288,11 +1288,11 @@ exports.getEnterpriseLeads = async (req, res, next) => {
 
 
 // ...existing code...
-exports.uploadPharmacyVademecum = async (req, res) => {
+exports.uploadVeterinariaVademecum = async (req, res) => {
   try {
-    const pharmacy = await Pharmacy.findById(req.params.id);
-    if (!pharmacy) {
-      return res.status(404).json({ success: false, message: "Farmacia no encontrada" });
+    const veterinaria = await Veterinaria.findById(req.params.id);
+    if (!veterinaria) {
+      return res.status(404).json({ success: false, message: "Veterinaria no encontrada" });
     }
 
     if (!req.file) {
@@ -1302,7 +1302,7 @@ exports.uploadPharmacyVademecum = async (req, res) => {
       });
     }
 
-    pharmacy.vademecumFile = {
+    veterinaria.vademecumFile = {
       url: req.file.path,
       originalName: req.file.originalname,
       mimeType: req.file.mimetype,
@@ -1311,17 +1311,17 @@ exports.uploadPharmacyVademecum = async (req, res) => {
     };
 
     if (req.body.vademecumPreview) {
-      pharmacy.vademecumPreview = Array.isArray(req.body.vademecumPreview)
+      veterinaria.vademecumPreview = Array.isArray(req.body.vademecumPreview)
         ? req.body.vademecumPreview
         : JSON.parse(req.body.vademecumPreview);
     }
 
-    await pharmacy.save();
+    await veterinaria.save();
 
     return res.json({
       success: true,
       message: "Vademecum cargado correctamente",
-      data: pharmacy,
+      data: veterinaria,
     });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });

@@ -9,7 +9,7 @@ const { protect } = require("../middleware/auth");
 
 router.post("/", protect, requestController.createRequest);
 router.get("/", protect, requestController.listRequests);
-router.get("/pharmacy", protect, requestController.getRequestsForPharmacy);
+router.get("/veterinaria", protect, requestController.getRequestsForVeterinaria);
 router.get("/doctor", protect, requestController.getRequestsForDoctor); // <-- nueva ruta
 router.get("/emergency", protect, requestController.getRequestsForEmergency); // <-- nueva ruta
 router.get("/user", protect, requestController.getRequestsForUser);

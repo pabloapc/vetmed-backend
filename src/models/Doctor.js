@@ -4,7 +4,7 @@ const doctorSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            required: [true, "Por favor ingrese el nombre de la farmacia"],
+            required: [true, "Por favor ingrese el nombre del doctor"],
             trim: true,
         },
         address: {

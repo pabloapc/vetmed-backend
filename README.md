@@ -1,18 +1,18 @@
 # Gimed Backend API
 
-Backend API para Gimed — Plataforma de beneficios y servicios médicos/farmacéuticos, con sistema de registro y autenticación, gestión multi-entidad (Farmacias, Doctores, Emergencias, Prestadores, Prestaciones/Servicios, Ofertas).
+Backend API para Gimed — Plataforma de beneficios y servicios médicos/veterinarios, con sistema de registro y autenticación, gestión multi-entidad (Veterinarias, Doctores, Emergencias, Prestadores, Prestaciones/Servicios, Ofertas).
 
 ---
 
 ## 🚀 Características Principales
 
-- Registro y autenticación JWT (usuarios, farmacias, doctores, admin, emergencias)
-- Gestión y búsqueda de farmacias, doctores, emergencias y prestadores (providers)
+- Registro y autenticación JWT (usuarios, veterinarias, doctores, admin, emergencias)
+- Gestión y búsqueda de veterinarias, doctores, emergencias y prestadores (providers)
 - Sistema de prestaciones/ofertas (servicios, precios y reservas)
-- Alta, edición y asignación de servicios y ofertas a providers (farmacias, doctores, etc.)
+- Alta, edición y asignación de servicios y ofertas a providers (veterinarias, doctores, etc.)
 - Solicitud de turnos/servicios (“requests”) con seguimiento de estado
 - Contactos empresariales y leads de usuarios
-- Roles y permisos multi-entidad (usuario, pharmacy, doctor, emergency, admin)
+- Roles y permisos multi-entidad (usuario, veterinaria, doctor, emergency, admin)
 - API RESTful (Express + Mongoose + Geolocalización)
 - Seguridad: JWT, bcrypt, Express Middleware
 - Verificación de email, protección rutas, validación de entrada
@@ -62,7 +62,7 @@ FRONTEND_URL=http://localhost:3000
 mongod
 ```
 
-5. (Opcional) Poblar la base de datos con farmacias de ejemplo:
+5. (Opcional) Poblar la base de datos con veterinarias de ejemplo:
 ```bash
 npm run seed
 ```
@@ -192,9 +192,9 @@ Authorization: Bearer {token}
 }
 ```
 
-### Farmacias (Requiere Autenticación)
+### Veterinarias (Requiere Autenticación)
 
-Todas las rutas de farmacias requieren el header:
+Todas las rutas de veterinarias requieren el header:
 ```
 Authorization: Bearer {token}
 ```

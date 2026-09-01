@@ -92,7 +92,7 @@ exports.getEmergencies = async (req, res, next) => {
 };
 
 /**
- * @desc    Get single pharmacy
+ * @desc    Get single veterinaria
  * @route   GET /api/pharmacies/:id
  * @access  Private
  */

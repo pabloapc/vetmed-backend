@@ -1,5 +1,5 @@
 const Request = require("../models/Request");
-const Pharmacy = require("../models/Pharmacy");
+const Veterinaria = require("../models/Veterinaria");
 const Doctor = require("../models/Doctor");
 const User = require("../models/User");
 
@@ -12,13 +12,13 @@ function generate6Digit() {
 }
 const TOKEN_TTL_MS = 2 * 60 * 1000; // 2 minutos
 
-// Resolve and validate target: accepts targetType+targetId, or pharmacyId/doctorId
+// Resolve and validate target: accepts targetType+targetId, or veterinariaId/doctorId
 async function resolveTarget(body) {
-    let { targetType, targetId, pharmacyId, doctorId } = body;
+    let { targetType, targetId, veterinariaId, doctorId } = body;
 
-    if (!targetType && pharmacyId) {
-        targetType = "pharmacy";
-        targetId = pharmacyId;
+    if (!targetType && veterinariaId) {
+        targetType = "veterinaria";
+        targetId = veterinariaId;
     } else if (!targetType && doctorId) {
         targetType = "doctor";
         targetId = doctorId;
@@ -26,14 +26,14 @@ async function resolveTarget(body) {
 
     if (!targetType || !targetId) {
         throw new Error(
-            "targetType y targetId (o pharmacyId/doctorId) son requeridos"
+            "targetType y targetId (o veterinariaId/doctorId) son requeridos"
         );
     }
 
     // validate existence
-    if (targetType === "pharmacy") {
-        const p = await Pharmacy.findById(targetId).lean();
-        if (!p) throw new Error("Farmacia no encontrada para el target");
+    if (targetType === "veterinaria") {
+        const p = await Veterinaria.findById(targetId).lean();
+        if (!p) throw new Error("Veterinaria no encontrada para el target");
         return { targetType, targetId: p._id, targetName: p.name };
     } else if (targetType === "doctor") {
         const d = await Doctor.findById(targetId).lean();
@@ -56,7 +56,7 @@ exports.createRequest = async (req, res, next) => {
             metadata,
         } = req.body;
 
-        // Resolve target (supports pharmacyId/doctorId or targetType+targetId)
+        // Resolve target (supports veterinariaId/doctorId or targetType+targetId)
         let resolved;
         try {
             resolved = await resolveTarget(req.body);
@@ -100,8 +100,8 @@ exports.createRequest = async (req, res, next) => {
         const doc = await Request.create({
             targetType,
             targetId,
-            // keep pharmacy for backward compatibility if targetType=pharmacy
-            pharmacy: targetType === "pharmacy" ? targetId : undefined,
+            // keep veterinaria for backward compatibility if targetType=veterinaria
+            veterinaria: targetType === "veterinaria" ? targetId : undefined,
             user: userId || null,
             userSnapshot: snapshot,
             actionType,
@@ -119,8 +119,8 @@ exports.createRequest = async (req, res, next) => {
                 populated.user,
                 "name email telefono"
             ).lean();
-        if (populated.targetType === "pharmacy")
-            populated.target = await Pharmacy.findById(
+        if (populated.targetType === "veterinaria")
+            populated.target = await Veterinaria.findById(
                 populated.targetId,
                 "name address"
             ).lean();
@@ -144,13 +144,13 @@ exports.createRequest = async (req, res, next) => {
 };
 
 // GET /api/requests/target (for partner listing) - optional helper
-// But we keep /pharmacy endpoint for backwards compatibility; we'll adapt it below
+// But we keep /veterinaria endpoint for backwards compatibility; we'll adapt it below
 
-// GET /api/requests/pharmacy -> now reads by targetType/targetId
-exports.getRequestsForPharmacy = async (req, res, next) => {
+// GET /api/requests/veterinaria -> now reads by targetType/targetId
+exports.getRequestsForVeterinaria = async (req, res, next) => {
     try {
         const user = req.user;
-        if (!user || user.role !== "pharmacy")
+        if (!user || user.role !== "veterinaria")
             return res
                 .status(403)
                 .json({ success: false, message: "Acceso denegado" });
@@ -161,11 +161,11 @@ exports.getRequestsForPharmacy = async (req, res, next) => {
                 .status(400)
                 .json({
                     success: false,
-                    message: "La farmacia no está vinculada al usuario",
+                    message: "La veterinaria no está vinculada al usuario",
                 });
 
         const requests = await Request.find({
-            targetType: "pharmacy",
+            targetType: "veterinaria",
             targetId,
         })
             .sort({ createdAt: -1 })
@@ -198,37 +198,37 @@ exports.getRequestsForUser = async (req, res, next) => {
       .lean();
 
     // Recolectar targetIds por tipo para hacer consultas en batch
-    const pharmacyIds = new Set();
+    const veterinariaIds = new Set();
     const doctorIds = new Set();
 
     requests.forEach((r) => {
-      if (r.targetType === 'pharmacy' && r.targetId) pharmacyIds.add(String(r.targetId));
+      if (r.targetType === 'veterinaria' && r.targetId) veterinariaIds.add(String(r.targetId));
       if (r.targetType === 'doctor' && r.targetId) doctorIds.add(String(r.targetId));
-      // Si hay legacy field `pharmacy` y no hay targetType, también considerarlo
-      if (!r.targetType && r.pharmacy) pharmacyIds.add(String(r.pharmacy));
+      // Si hay legacy field `veterinaria` y no hay targetType, también considerarlo
+      if (!r.targetType && r.veterinaria) veterinariaIds.add(String(r.veterinaria));
     });
 
     // Buscar documentos targets en batch
-    const [pharmaciesList, doctorsList] = await Promise.all([
-      pharmacyIds.size ? Pharmacy.find({ _id: { $in: Array.from(pharmacyIds) } }, 'name address').lean() : [],
+    const [veterinariasList, doctorsList] = await Promise.all([
+      veterinariaIds.size ? Veterinaria.find({ _id: { $in: Array.from(veterinariaIds) } }, 'name address').lean() : [],
       doctorIds.size ? Doctor.find({ _id: { $in: Array.from(doctorIds) } }, 'name address').lean() : [],
     ]);
 
-    const pharmaciesMap = {};
+    const veterinariasMap = {};
     const doctorsMap = {};
 
-    pharmaciesList.forEach((p) => { pharmaciesMap[String(p._id)] = p; });
+    veterinariasList.forEach((p) => { veterinariasMap[String(p._id)] = p; });
     doctorsList.forEach((d) => { doctorsMap[String(d._1?._id || d._id)] = d; }); // safe mapping
 
     // Adjuntar campo `target` a cada request con la info correspondiente
     const enriched = requests.map((r) => {
       const out = Object.assign({}, r);
-      if (r.targetType === 'pharmacy' && r.targetId) {
-        out.target = pharmaciesMap[String(r.targetId)] || null;
+      if (r.targetType === 'veterinaria' && r.targetId) {
+        out.target = veterinariasMap[String(r.targetId)] || null;
       } else if (r.targetType === 'doctor' && r.targetId) {
         out.target = doctorsMap[String(r.targetId)] || null;
-      } else if (!r.targetType && r.pharmacy) {
-        out.target = pharmaciesMap[String(r.pharmacy)] || null;
+      } else if (!r.targetType && r.veterinaria) {
+        out.target = veterinariasMap[String(r.veterinaria)] || null;
       } else {
         out.target = null;
       }
@@ -260,10 +260,10 @@ exports.getRequestById = async (req, res, next) => {
 
         const userId = user._id || user.id || null;
 
-        if (user.role === "pharmacy") {
+        if (user.role === "veterinaria") {
             if (
                 String(user.entityId) !== String(reqDoc.targetId) ||
-                reqDoc.targetType !== "pharmacy"
+                reqDoc.targetType !== "veterinaria"
             ) {
                 return res
                     .status(403)
@@ -287,8 +287,8 @@ exports.getRequestById = async (req, res, next) => {
                 reqDoc.user,
                 "name email telefono"
             ).lean();
-        if (reqDoc.targetType === "pharmacy")
-            reqDoc.target = await Pharmacy.findById(
+        if (reqDoc.targetType === "veterinaria")
+            reqDoc.target = await Veterinaria.findById(
                 reqDoc.targetId,
                 "name address"
             ).lean();

@@ -5,7 +5,7 @@ const requestSchema = new mongoose.Schema(
         // New unified target fields
         targetType: {
             type: String,
-            enum: ["pharmacy", "doctor", "emergency", "other"],
+            enum: ["veterinaria", "doctor", "emergency", "other"],
             required: false,
             default: undefined,
         },
@@ -16,10 +16,10 @@ const requestSchema = new mongoose.Schema(
             default: undefined,
         },
 
-        // Backwards compatibility (existing docs may have pharmacy)
-        pharmacy: {
+        // Backwards compatibility (existing docs may have veterinaria)
+        veterinaria: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Pharmacy",
+            ref: "Veterinaria",
             required: false,
         },
 
@@ -99,5 +99,5 @@ const requestSchema = new mongoose.Schema(
 
 // Index for quick lookups by target
 requestSchema.index({ targetType: 1, targetId: 1 });
-requestSchema.index({ pharmacy: 1 });
+requestSchema.index({ veterinaria: 1 });
 module.exports = mongoose.model("Request", requestSchema);

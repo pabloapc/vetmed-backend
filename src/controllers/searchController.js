@@ -1,17 +1,17 @@
-const Pharmacy = require("../models/Pharmacy");
+const Veterinaria = require("../models/Veterinaria");
 const Doctor = require("../models/Doctor");
 
 /**
  * GET /api/search
  * Query:
  *   - q: string (required for suggestions/search)
- *   - type: 'pharmacy'|'doctor'|'both' (default both)
+ *   - type: 'veterinaria'|'doctor'|'both' (default both)
  *   - limit: number (default 8) -> for suggestions
  *   - full: boolean (if true, return full matching docs instead of compact suggestions)
  *
  * Responses:
  *  - suggestions: [{ type, id, name, address, snippet }]
- *  - when full=true: { doctors: [...], pharmacies: [...] }
+ *  - when full=true: { doctors: [...], veterinarias: [...] }
  */
 exports.search = async (req, res, next) => {
     try {
@@ -43,8 +43,8 @@ exports.search = async (req, res, next) => {
         // If full results requested, return full documents
         if (full) {
             const out = {};
-            if (type === "pharmacy" || type === "both") {
-                const pharmacies = await Pharmacy.find({
+            if (type === "veterinaria" || type === "both") {
+                const veterinarias = await Veterinaria.find({
                     $or: [
                         { name: regex },
                         { address: regex },
@@ -53,7 +53,7 @@ exports.search = async (req, res, next) => {
                 })
                     .limit(100)
                     .lean();
-                out.pharmacies = pharmacies;
+                out.veterinarias = veterinarias;
             }
             if (type === "doctor" || type === "both") {
                 const doctors = await Doctor.find({
@@ -73,8 +73,8 @@ exports.search = async (req, res, next) => {
         // suggestions mode: return compact list from both collections
         const suggestions = [];
 
-        if (type === "pharmacy" || type === "both") {
-            const phs = await Pharmacy.find({
+        if (type === "veterinaria" || type === "both") {
+            const phs = await Veterinaria.find({
                 $or: [
                     { name: regex },
                     { address: regex },
@@ -85,7 +85,7 @@ exports.search = async (req, res, next) => {
                 .lean();
             phs.forEach((p) => {
                 suggestions.push({
-                    type: "pharmacy",
+                    type: "veterinaria",
                     id: p._id,
                     name: p.name,
                     address: p.address || p.direccion || snippetFrom(p),

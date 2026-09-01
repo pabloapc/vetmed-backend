@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/database");
 const authRoutes = require("./routes/authRoutes");
-const pharmacyRoutes = require("./routes/pharmacyRoutes");
+const veterinariaRoutes = require("./routes/veterinariaRoutes");
 const doctorsRoutes = require("./routes/doctorsRoutes");
 const emergencyRoutes = require("./routes/emergencyRoutes");
 const requestRoutes = require("./routes/requestRoutes");
@@ -143,7 +143,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
-app.use("/api/pharmacies", pharmacyRoutes);
+app.use("/api/veterinarias", veterinariaRoutes);
 app.use("/api/doctors", doctorsRoutes);
 app.use("/api/emergencies", emergencyRoutes);
 app.use("/api/requests", requestRoutes);

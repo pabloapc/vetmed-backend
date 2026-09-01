@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const Pharmacy = require("../models/Pharmacy");
+const Veterinaria = require("../models/Veterinaria");
 const Doctor = require("../models/Doctor");
 const Emergency = require("../models/Emergency");
 const {
@@ -29,7 +29,7 @@ const buildAuthUserPayload = async (user, extraFields = {}) => ({
 });
 
 /**
- * Register user and optional associated entity (pharmacy/doctor).
+ * Register user and optional associated entity (veterinaria/doctor).
  */
 // Nota: Asegurate de tener importado el modelo Emergency en la parte superior del archivo:
  
@@ -44,11 +44,11 @@ exports.register = async (req, res, next) => {
             password,
             latitude,
             longitude,
-            role, // optional: "pharmacy" | "doctor" | "emergency" | "user"
+            role, // optional: "veterinaria" | "doctor" | "emergency" | "user"
             entityId,
             planId,
 
-            // additional fields for pharmacy/doctor/emergency may come in body
+            // additional fields for veterinaria/doctor/emergency may come in body
             ...rest
         } = req.body;
 
@@ -88,16 +88,16 @@ exports.register = async (req, res, next) => {
 
         await user.save();
 
-        // If registering a pharmacy, doctor or emergency, create the corresponding document.
+        // If registering a veterinaria, doctor or emergency, create the corresponding document.
         // If entity creation fails, try to rollback the created user to avoid orphan users.
         let createdEntity = null;
         try {
-            if (role === "pharmacy") {
+            if (role === "veterinaria") {
                 const publicName =
                     (entityName || rest.entityName || "").trim() ||
                     user.name ||
-                    "Farmacia";
-                const pharmacyData = {
+                    "Veterinaria";
+                const veterinariaData = {
                     name: publicName,
                     address: rest.address || rest.direccion || "",
                     phone: rest.phone || rest.telefono || "",
@@ -123,7 +123,7 @@ exports.register = async (req, res, next) => {
                     },
                     owner: user._id,
                 };
-                createdEntity = await Pharmacy.create(pharmacyData);
+                createdEntity = await Veterinaria.create(veterinariaData);
                 user.entityId = createdEntity._id;
             } else if (role === "doctor") {
                 const publicName =

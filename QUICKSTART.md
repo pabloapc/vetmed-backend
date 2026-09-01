@@ -58,7 +58,7 @@ sudo systemctl start mongod
 
 ### Step 4: (Optional) Seed Sample Data
 
-Add sample pharmacies to the database:
+Add sample veterinarias to the database:
 
 ```bash
 npm run seed

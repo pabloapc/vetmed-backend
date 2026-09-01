@@ -1,15 +1,15 @@
-const Doctor = require('../models/Doctor');
+const Veterinaria = require("../models/Veterinaria");
 const User = require("../models/User");
 
 /**
- * @desc    Get all pharmacies (with optional location filter)
- * @route   GET /api/pharmacies
+ * @desc    Get all veterinarias (with optional location filter)
+ * @route   GET /api/veterinarias
  * @access  Private
  * @note    Query parameters (latitude/longitude) are used for location-based filtering.
  *          These are geographical coordinates, not sensitive user data. They are validated
  *          and sanitized before use in database queries. GET is appropriate for this search operation.
  */
-exports.getDoctors = async (req, res, next) => {
+exports.getVeterinarias = async (req, res, next) => {
   try {
     // Note: latitude/longitude are geographical search parameters, validated below
     const { latitude, longitude, maxDistance = 10000 } = req.query; // maxDistance in meters (default 10km)
@@ -30,7 +30,7 @@ exports.getDoctors = async (req, res, next) => {
       }
 
       // Use MongoDB geospatial query
-      const doctors = await Doctor.find({
+      const veterinarias = await Veterinaria.find({
         ...query,
         location: {
           $near: {
@@ -45,51 +45,47 @@ exports.getDoctors = async (req, res, next) => {
 
       return res.status(200).json({
         success: true,
-        count: doctors.length,
-        message: 'Doctores cercanos encontrados',
+        count: veterinarias.length,
+        message: 'Veterinarias cercanas encontradas',
         data: {
-          doctors: doctors.map(doctor => ({
-            id: doctor._id,
-            name: doctor.name,
-            address: doctor.address,
-            phone: doctor.phone,
-            url: doctor.url,
-            specialty: doctor.specialty,
+          veterinarias: veterinarias.map(veterinaria => ({
+            id: veterinaria._id,
+            name: veterinaria.name,
+            address: veterinaria.address,
+            phone: veterinaria.phone,
             coordinates: {
-              latitude: doctor.location.coordinates[1],
-              longitude: doctor.location.coordinates[0]
+              latitude: veterinaria.location.coordinates[1],
+              longitude: veterinaria.location.coordinates[0]
             },
-            benefits: doctor.benefits,
-            discount: doctor.discount,
-            openingHours: doctor.openingHours,
+            benefits: veterinaria.benefits,
+            discount: veterinaria.discount,
+            openingHours: veterinaria.openingHours,
             distance: null // Could be calculated if needed
           }))
         }
       });
     }
 
-    // If no coordinates, return all doctors
-    const doctors = await Doctor.find(query);
+    // If no coordinates, return all veterinarias
+    const veterinarias = await Veterinaria.find(query);
 
     res.status(200).json({
       success: true,
-      count: doctors.length,
-      message: 'Doctores encontrados',
+      count: veterinarias.length,
+      message: 'Veterinarias encontradas',
       data: {
-        doctors: doctors.map(doctor => ({
-          id: doctor._id,
-          name: doctor.name,
-          address: doctor.address,
-          phone: doctor.phone,
-            url: doctor.url,
-            specialty: doctor.specialty,
+        veterinarias: veterinarias.map(veterinaria => ({
+          id: veterinaria._id,
+          name: veterinaria.name,
+          address: veterinaria.address,
+          phone: veterinaria.phone,
           coordinates: {
-            latitude: doctor.location.coordinates[1],
-            longitude: doctor.location.coordinates[0]
+            latitude: veterinaria.location.coordinates[1],
+            longitude: veterinaria.location.coordinates[0]
           },
-          benefits: doctor.benefits,
-          discount: doctor.discount,
-          openingHours: doctor.openingHours
+          benefits: veterinaria.benefits,
+          discount: veterinaria.discount,
+          openingHours: veterinaria.openingHours
         }))
       }
     });
@@ -100,38 +96,36 @@ exports.getDoctors = async (req, res, next) => {
 
 /**
  * @desc    Get single veterinaria
- * @route   GET /api/pharmacies/:id
+ * @route   GET /api/veterinarias/:id
  * @access  Private
  */
-exports.getDoctor = async (req, res, next) => {
+exports.getVeterinaria = async (req, res, next) => {
   try {
-    const doctor = await Doctor.findById(req.params.id);
+    const veterinaria = await Veterinaria.findById(req.params.id);
 
-    if (!doctor) {
+    if (!veterinaria) {
       return res.status(404).json({
         success: false,
-        message: 'Doctor no encontrado'
+        message: 'Veterinaria no encontrada'
       });
     }
 
     res.status(200).json({
       success: true,
       data: {
-        doctor: {
-          id: doctor._id,
-          name: doctor.name,
-          address: doctor.address,
-          phone: doctor.phone,
-          url: doctor.url,
-          specialty: doctor.specialty,
+        veterinaria: {
+          id: veterinaria._id,
+          name: veterinaria.name,
+          address: veterinaria.address,
+          phone: veterinaria.phone,
           coordinates: {
-            latitude: doctor.location.coordinates[1],
-            longitude: doctor.location.coordinates[0]
+            latitude: veterinaria.location.coordinates[1],
+            longitude: veterinaria.location.coordinates[0]
           },
-          benefits: doctor.benefits,
-          discount: doctor.discount,
-          openingHours: doctor.openingHours,
-          createdAt: doctor.createdAt
+          benefits: veterinaria.benefits,
+          discount: veterinaria.discount,
+          openingHours: veterinaria.openingHours,
+          createdAt: veterinaria.createdAt
         }
       }
     });
@@ -141,11 +135,11 @@ exports.getDoctor = async (req, res, next) => {
 };
 
 /**
- * @desc    Get nearby doctors for current user
- * @route   GET /api/doctors/nearby
+ * @desc    Get nearby veterinarias for current user
+ * @route   GET /api/veterinarias/nearby
  * @access  Private
  */
-exports.getNearbyDoctors = async (req, res, next) => {
+exports.getNearbyVeterinarias = async (req, res, next) => {
   try {
     const user = req.user;
     const { maxDistance = 10000 } = req.query; // default 10km
@@ -156,11 +150,11 @@ exports.getNearbyDoctors = async (req, res, next) => {
     if (latitude === 0 && longitude === 0) {
       return res.status(400).json({
         success: false,
-        message: 'Por favor actualiza tu ubicación para ver farmacias cercanas'
+        message: 'Por favor actualiza tu ubicación para ver veterinarias cercanas'
       });
     }
 
-    const doctors = await Doctor.find({
+    const veterinarias = await Veterinaria.find({
       isActive: true,
       location: {
         $near: {
@@ -175,23 +169,21 @@ exports.getNearbyDoctors = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      count: doctors.length,
-      message: `Encontramos ${doctors.length} doctores cerca de ti`,
+      count: veterinarias.length,
+      message: `Encontramos ${veterinarias.length} veterinarias cerca de ti`,
       data: {
-        doctors: doctors.map(doctor => ({
-          id: doctor._id,
-          name: doctor.name,
-          address: doctor.address,
-          phone: doctor.phone,
-            url: doctor.url,
-            specialty: doctor.specialty,
+        veterinarias: veterinarias.map(veterinaria => ({
+          id: veterinaria._id,
+          name: veterinaria.name,
+          address: veterinaria.address,
+          phone: veterinaria.phone,
           coordinates: {
-            latitude: doctor.location.coordinates[1],
-            longitude: doctor.location.coordinates[0]
+            latitude: veterinaria.location.coordinates[1],
+            longitude: veterinaria.location.coordinates[0]
           },
-          benefits: doctor.benefits,
-          discount: doctor.discount,
-          openingHours: doctor.openingHours
+          benefits: veterinaria.benefits,
+          discount: veterinaria.discount,
+          openingHours: veterinaria.openingHours
         })),
         userLocation: {
           latitude,
@@ -205,11 +197,11 @@ exports.getNearbyDoctors = async (req, res, next) => {
 };
 
 /**
- * @desc    Create new pharmacy
- * @route   POST /api/pharmacies
+ * @desc    Create new veterinaria
+ * @route   POST /api/veterinarias
  * @access  Private
  */
-exports.createDoctor = async (req, res, next) => {
+exports.createVeterinaria = async (req, res, next) => {
   try {
     const { name, address, phone, latitude, longitude, benefits, discount, openingHours } = req.body;
 
@@ -232,8 +224,8 @@ exports.createDoctor = async (req, res, next) => {
       });
     }
 
-    // Create doctor
-    const doctor = await Doctor.create({
+    // Create veterinaria
+    const veterinaria = await Veterinaria.create({
       name,
       address,
       phone,
@@ -241,8 +233,6 @@ exports.createDoctor = async (req, res, next) => {
         type: 'Point',
         coordinates: [lng, lat]
       },
-      url: req.body.url,
-      specialty: req.body.specialty,
       benefits: benefits || 'Descuentos especiales para usuarios registrados',
       discount: discount || 10,
       openingHours: openingHours || 'Lun-Vie: 9:00-18:00, Sáb: 9:00-14:00',
@@ -251,24 +241,22 @@ exports.createDoctor = async (req, res, next) => {
 
     res.status(201).json({
       success: true,
-      message: 'Doctor creado exitosamente',
+      message: 'Veterinaria creada exitosamente',
       data: {
-        doctor: {
-          id: doctor._id,
-          name: doctor.name,
-          address: doctor.address,
-          phone: doctor.phone,
-            url: doctor.url,
-            specialty: doctor.specialty,
+        veterinaria: {
+          id: veterinaria._id,
+          name: veterinaria.name,
+          address: veterinaria.address,
+          phone: veterinaria.phone,
           coordinates: {
-            latitude: doctor.location.coordinates[1],
-            longitude: doctor.location.coordinates[0]
+            latitude: veterinaria.location.coordinates[1],
+            longitude: veterinaria.location.coordinates[0]
           },
-          benefits: doctor.benefits,
-          discount: doctor.discount,
-          openingHours: doctor.openingHours,
-          isActive: doctor.isActive,
-          createdAt: doctor.createdAt
+          benefits: veterinaria.benefits,
+          discount: veterinaria.discount,
+          openingHours: veterinaria.openingHours,
+          isActive: veterinaria.isActive,
+          createdAt: veterinaria.createdAt
         }
       }
     });
@@ -277,37 +265,31 @@ exports.createDoctor = async (req, res, next) => {
   }
 };
 
-/**
- * @desc    Update doctor
- * @route   PUT /api/doctors/:id
- * @access  Private
- */
-
 
 /**
- * Update doctor (only owner or admin)
- * PUT /api/doctors/:id
+ * Update veterinaria (only owner or admin)
+ * PUT /api/veterinarias/:id
  */
-exports.updateDoctor = async (req, res, next) => {
+exports.updateVeterinaria = async (req, res, next) => {
     try {
         const {
             name,
-            specialty,
             address,
             phone,
-            url,
-            horario,
             latitude,
             longitude,
+            benefits,
+            discount,
+            openingHours,
             isActive,
         } = req.body;
 
-        // Find doctor
-        const doctor = await Doctor.findById(req.params.id);
-        if (!doctor) {
+        // Find veterinaria
+        const veterinaria = await Veterinaria.findById(req.params.id);
+        if (!veterinaria) {
             return res
                 .status(404)
-                .json({ success: false, message: "Doctor no encontrado" });
+                .json({ success: false, message: "Veterinaria no encontrada" });
         }
 
         // Auth: only owner or admin
@@ -318,8 +300,8 @@ exports.updateDoctor = async (req, res, next) => {
                 .json({ success: false, message: "No autenticado" });
 
         const isOwner =
-            (user.entityId && String(user.entityId) === String(doctor._id)) ||
-            (doctor.owner && String(doctor.owner) === String(user._id));
+            (user.entityId && String(user.entityId) === String(veterinaria._id)) ||
+            (veterinaria.owner && String(veterinaria.owner) === String(user._id));
         if (!isOwner && user.role !== "admin") {
             return res
                 .status(403)
@@ -327,13 +309,14 @@ exports.updateDoctor = async (req, res, next) => {
         }
 
         // Update fields (only if provided)
-        if (typeof name !== "undefined") doctor.name = name;
-        if (typeof specialty !== "undefined") doctor.specialty = specialty;
-        if (typeof address !== "undefined") doctor.address = address;
-        if (typeof phone !== "undefined") doctor.phone = phone;
-        if (typeof url !== "undefined") doctor.url = url;
-        if (typeof horario !== "undefined") doctor.horario = horario;
-        if (typeof isActive !== "undefined") doctor.isActive = isActive;
+        if (typeof name !== "undefined") veterinaria.name = name;
+        if (typeof address !== "undefined") veterinaria.address = address;
+        if (typeof phone !== "undefined") veterinaria.phone = phone;
+        if (typeof benefits !== "undefined") veterinaria.benefits = benefits;
+        if (typeof discount !== "undefined") veterinaria.discount = discount;
+        if (typeof openingHours !== "undefined")
+            veterinaria.openingHours = openingHours;
+        if (typeof isActive !== "undefined") veterinaria.isActive = isActive;
 
         // Update location if coordinates provided (both required)
         if (
@@ -358,32 +341,32 @@ exports.updateDoctor = async (req, res, next) => {
                     .json({ success: false, message: "Coordenadas inválidas" });
             }
 
-            doctor.location = {
+            veterinaria.location = {
                 type: "Point",
                 coordinates: [lng, lat],
             };
         }
 
-        await doctor.save();
+        await veterinaria.save();
 
         res.status(200).json({
             success: true,
-            message: "Doctor actualizado exitosamente",
+            message: "Veterinaria actualizada exitosamente",
             data: {
-                doctor: {
-                    id: doctor._id,
-                    name: doctor.name,
-                    specialty: doctor.specialty,
-                    address: doctor.address,
-                    phone: doctor.phone,
-                    url: doctor.url,
-                    horario: doctor.horario,
+                veterinaria: {
+                    id: veterinaria._id,
+                    name: veterinaria.name,
+                    address: veterinaria.address,
+                    phone: veterinaria.phone,
                     coordinates: {
-                        latitude: doctor.location?.coordinates?.[1] ?? 0,
-                        longitude: doctor.location?.coordinates?.[0] ?? 0,
+                        latitude: veterinaria.location?.coordinates?.[1] ?? 0,
+                        longitude: veterinaria.location?.coordinates?.[0] ?? 0,
                     },
-                    isActive: doctor.isActive,
-                    updatedAt: doctor.updatedAt,
+                    benefits: veterinaria.benefits,
+                    discount: veterinaria.discount,
+                    openingHours: veterinaria.openingHours,
+                    isActive: veterinaria.isActive,
+                    updatedAt: veterinaria.updatedAt,
                 },
             },
         });
@@ -391,30 +374,27 @@ exports.updateDoctor = async (req, res, next) => {
         next(error);
     }
 };
-
-
-
 /**
- * @desc    Delete doctor
- * @route   DELETE /api/doctors/:id
+ * @desc    Delete veterinaria
+ * @route   DELETE /api/veterinarias/:id
  * @access  Private
  */
-exports.deleteDoctor = async (req, res, next) => {
+exports.deleteVeterinaria = async (req, res, next) => {
   try {
-    const doctor = await Doctor.findById(req.params.id);
+    const veterinaria = await Veterinaria.findById(req.params.id);
 
-    if (!doctor) {
+    if (!veterinaria) {
       return res.status(404).json({
         success: false,
-        message: 'Doctor no encontrado'
+        message: 'Veterinaria no encontrada'
       });
     }
 
-    await doctor.deleteOne();
+    await veterinaria.deleteOne();
 
     res.status(200).json({
       success: true,
-      message: 'Doctor eliminado exitosamente',
+      message: 'Veterinaria eliminada exitosamente',
       data: {}
     });
   } catch (error) {

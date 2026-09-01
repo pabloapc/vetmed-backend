@@ -61,48 +61,48 @@ GET http://localhost:3000/api/auth/me
 Authorization: Bearer {tu_token_jwt}
 ```
 
-## 6. Listar Todas las Farmacias
+## 6. Listar Todas las Veterinarias
 
 ```
-GET http://localhost:3000/api/pharmacies
+GET http://localhost:3000/api/veterinarias
 Authorization: Bearer {tu_token_jwt}
 ```
 
-## 7. Buscar Farmacias Cercanas
+## 7. Buscar Veterinarias Cercanas
 
 ```
-GET http://localhost:3000/api/pharmacies?latitude=40.7128&longitude=-74.0060&maxDistance=5000
+GET http://localhost:3000/api/veterinarias?latitude=40.7128&longitude=-74.0060&maxDistance=5000
 Authorization: Bearer {tu_token_jwt}
 ```
 
-## 8. Farmacias Cercanas al Usuario Actual
+## 8. Veterinarias Cercanas al Usuario Actual
 
 ```
-GET http://localhost:3000/api/pharmacies/nearby?maxDistance=5000
+GET http://localhost:3000/api/veterinarias/nearby?maxDistance=5000
 Authorization: Bearer {tu_token_jwt}
 ```
 
-## 9. Obtener Detalle de una Farmacia
+## 9. Obtener Detalle de una Veterinaria
 
 ```
-GET http://localhost:3000/api/pharmacies/{pharmacy_id}
+GET http://localhost:3000/api/veterinarias/{veterinaria_id}
 Authorization: Bearer {tu_token_jwt}
 ```
 
-## 10. Crear Nueva Farmacia
+## 10. Crear Nueva Veterinaria
 
 ```
-POST http://localhost:3000/api/pharmacies
+POST http://localhost:3000/api/veterinarias
 Content-Type: application/json
 Authorization: Bearer {tu_token_jwt}
 
 {
-  "name": "Farmacia Nueva",
+  "name": "Veterinaria Nueva",
   "address": "Calle 123, Centro",
   "phone": "+1234567890",
   "latitude": 40.7128,
   "longitude": -74.0060,
-  "benefits": "Descuento del 10% en medicamentos genéricos",
+  "benefits": "Descuento del 10% en servicios veterinarios",
   "discount": 10,
   "openingHours": "Lun-Vie: 9:00-18:00, Sáb: 9:00-14:00"
 }
@@ -112,15 +112,15 @@ Authorization: Bearer {tu_token_jwt}
 
 **Campos opcionales**: `phone`, `benefits`, `discount`, `openingHours`
 
-## 11. Actualizar Farmacia Existente
+## 11. Actualizar Veterinaria Existente
 
 ```
-PUT http://localhost:3000/api/pharmacies/{pharmacy_id}
+PUT http://localhost:3000/api/veterinarias/{veterinaria_id}
 Content-Type: application/json
 Authorization: Bearer {tu_token_jwt}
 
 {
-  "name": "Farmacia Actualizada",
+  "name": "Veterinaria Actualizada",
   "discount": 15,
   "isActive": true
 }
@@ -134,14 +134,14 @@ Ejemplos de actualización:
 - Desactivar temporalmente: `{"isActive": false}`
 - Actualizar ubicación: `{"latitude": 40.7130, "longitude": -74.0065}`
 
-## 12. Eliminar Farmacia
+## 12. Eliminar Veterinaria
 
 ```
-DELETE http://localhost:3000/api/pharmacies/{pharmacy_id}
+DELETE http://localhost:3000/api/veterinarias/{veterinaria_id}
 Authorization: Bearer {tu_token_jwt}
 ```
 
-**⚠️ Advertencia**: Esta operación elimina permanentemente la farmacia de la base de datos.
+**⚠️ Advertencia**: Esta operación elimina permanentemente la veterinaria de la base de datos.
 
 ## Respuestas Comunes
 
@@ -177,7 +177,7 @@ Authorization: Bearer {tu_token_jwt}
 1. Primero registra un usuario
 2. Verifica el email usando el token de la consola
 3. Usa el token JWT en el header `Authorization: Bearer {token}` para todas las rutas protegidas
-4. Si quieres probar farmacias cercanas, primero ejecuta `npm run seed` para poblar la base de datos
+4. Si quieres probar veterinarias cercanas, primero ejecuta `npm run seed` para poblar la base de datos
 5. Los tokens expiran según la configuración (default: 7 días para auth, 24 horas para verificación)
 
 ## Colección de Postman

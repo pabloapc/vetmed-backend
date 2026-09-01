@@ -12,7 +12,7 @@ const { generalLimiter } = require('../middleware/rateLimiter');
 
 const router = express.Router();
 
-// All pharmacy routes require authentication and rate limiting
+// All veterinaria routes require authentication and rate limiting
 router.use(protect);
 router.use(generalLimiter);
 
