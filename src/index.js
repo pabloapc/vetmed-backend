@@ -60,10 +60,11 @@ const dominiosPermitidos = [
     "http://10.0.2.2",            // Android emulator without port
     
     // Production
-    "https://gimed-backend.onrender.com",
-    "https://gimed.vercel.app",
-    "https://gimed.com.ar",
-    "https://www.gimed.com.ar",
+    // TODO: reemplazar por los dominios reales de vetmed cuando existan
+    // "https://vetmed-backend.onrender.com",
+    // "https://vetmed.vercel.app",
+    // "https://vetmed.com.ar",
+    // "https://www.vetmed.com.ar",
 ];
 
 // 2. Helper: normalize origin (remove default ports for cleaner comparison)
