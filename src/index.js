@@ -46,19 +46,15 @@ const dominiosPermitidos = [
     // Development local
     "http://localhost:5173",
     "http://localhost:5174",
-    "http://localhost:3000",
+    "http://localhost:3001",
     "http://localhost",           // Capacitor Android (http scheme)
     "https://localhost",          // Future-proofing
     
-    // Mobile/Emulator
-    "capacitor://localhost",      // iOS/Android Capacitor
-    "http://10.0.2.2:3000",       // Android emulator (legacy)
-    "http://10.0.2.2",            // Android emulator without port
     
     // Production
-    // TODO: reemplazar por los dominios reales de vetmed cuando existan
-    // "https://vetmed-backend.onrender.com",
-    // "https://vetmed.vercel.app",
+ 
+    "https://vetmed-backend-9eqc.onrender.com/api",
+    "https://vetmed-frontend-five.vercel.app",
     // "https://vetmed.com.ar",
     // "https://www.vetmed.com.ar",
 ];
