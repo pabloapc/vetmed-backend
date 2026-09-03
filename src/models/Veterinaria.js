@@ -47,6 +47,14 @@ const veterinariaSchema = new mongoose.Schema(
       required: [true, "Por favor ingrese el nombre de la veterinaria"],
       trim: true,
     },
+    // SEO-friendly URL segment, e.g. "clinica-veterinaria-vottero". Generated once on
+    // creation and kept stable afterwards so published links/indexed pages don't break.
+    slug: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      index: true,
+    },
     address: {
       type: String,
       required: [true, "Por favor ingrese la dirección"],

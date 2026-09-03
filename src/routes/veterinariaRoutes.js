@@ -1,7 +1,8 @@
 const express = require('express');
-const { 
-  getVeterinarias, 
-  getVeterinaria, 
+const {
+  getVeterinarias,
+  getVeterinaria,
+  getVeterinariaBySlug,
   getNearbyVeterinarias,
   createVeterinaria,
   updateVeterinaria,
@@ -17,6 +18,7 @@ router.use(generalLimiter);
 // GET routes are public — the veterinarias listing must be visible without login
 router.get('/', getVeterinarias);
 router.get('/nearby', getNearbyVeterinarias);
+router.get('/slug/:slug', getVeterinariaBySlug);
 router.get('/:id', getVeterinaria);
 
 // Write routes still require authentication

@@ -68,6 +68,7 @@ exports.search = async (req, res, next) => {
             suggestions.push({
                 type: "veterinaria",
                 id: p._id,
+                slug: p.slug,
                 name: p.name,
                 address: p.address || p.direccion || snippetFrom(p),
             });

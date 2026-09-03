@@ -1,5 +1,18 @@
 const Veterinaria = require("../models/Veterinaria");
 const User = require("../models/User");
+const { slugify } = require("../utils/slugify");
+
+// Generates a unique slug for a new veterinaria (appends -2, -3... on collision).
+const generateUniqueSlug = async (name) => {
+  const base = slugify(name) || "veterinaria";
+  let slug = base;
+  let i = 2;
+  while (await Veterinaria.exists({ slug })) {
+    slug = `${base}-${i}`;
+    i += 1;
+  }
+  return slug;
+};
 
 // A veterinaria is "claimed" once a user with role "veterinaria" is linked to it
 // (User.entityId === Veterinaria._id). Unclaimed ones are just indexed listings
@@ -74,6 +87,7 @@ exports.getVeterinarias = async (req, res, next) => {
         data: {
           veterinarias: veterinarias.map(veterinaria => ({
             id: veterinaria._id,
+            slug: veterinaria.slug,
             name: veterinaria.name,
             address: veterinaria.address,
             city: veterinaria.city,
@@ -109,6 +123,7 @@ exports.getVeterinarias = async (req, res, next) => {
       data: {
         veterinarias: veterinarias.map(veterinaria => ({
           id: veterinaria._id,
+          slug: veterinaria.slug,
           name: veterinaria.name,
           address: veterinaria.address,
           city: veterinaria.city,
@@ -156,6 +171,56 @@ exports.getVeterinaria = async (req, res, next) => {
       data: {
         veterinaria: {
           id: veterinaria._id,
+          slug: veterinaria.slug,
+          name: veterinaria.name,
+          address: veterinaria.address,
+          city: veterinaria.city,
+          province: veterinaria.province,
+          phone: veterinaria.phone,
+          coordinates: {
+            latitude: veterinaria.location.coordinates[1],
+            longitude: veterinaria.location.coordinates[0]
+          },
+          benefits: veterinaria.benefits,
+          discount: veterinaria.discount,
+          openingHours: veterinaria.openingHours,
+          isClaimed: Boolean(isClaimed),
+          createdAt: veterinaria.createdAt
+        }
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @desc    Get single veterinaria by its SEO slug
+ * @route   GET /api/veterinarias/slug/:slug
+ * @access  Private
+ */
+exports.getVeterinariaBySlug = async (req, res, next) => {
+  try {
+    const veterinaria = await Veterinaria.findOne({ slug: req.params.slug });
+
+    if (!veterinaria) {
+      return res.status(404).json({
+        success: false,
+        message: 'Veterinaria no encontrada'
+      });
+    }
+
+    const isClaimed = await User.exists({
+      role: "veterinaria",
+      entityId: veterinaria._id,
+    });
+
+    res.status(200).json({
+      success: true,
+      data: {
+        veterinaria: {
+          id: veterinaria._id,
+          slug: veterinaria.slug,
           name: veterinaria.name,
           address: veterinaria.address,
           city: veterinaria.city,
@@ -228,6 +293,7 @@ exports.getNearbyVeterinarias = async (req, res, next) => {
       data: {
         veterinarias: veterinarias.map(veterinaria => ({
           id: veterinaria._id,
+          slug: veterinaria.slug,
           name: veterinaria.name,
           address: veterinaria.address,
           city: veterinaria.city,
@@ -288,8 +354,10 @@ exports.createVeterinaria = async (req, res, next) => {
     }
 
     // Create veterinaria
+    const slug = await generateUniqueSlug(name);
     const veterinaria = await Veterinaria.create({
       name,
+      slug,
       address,
       city,
       province,
@@ -310,6 +378,7 @@ exports.createVeterinaria = async (req, res, next) => {
       data: {
         veterinaria: {
           id: veterinaria._id,
+          slug: veterinaria.slug,
           name: veterinaria.name,
           address: veterinaria.address,
           city: veterinaria.city,
@@ -426,6 +495,7 @@ exports.updateVeterinaria = async (req, res, next) => {
             data: {
                 veterinaria: {
                     id: veterinaria._id,
+                    slug: veterinaria.slug,
                     name: veterinaria.name,
                     address: veterinaria.address,
                     city: veterinaria.city,

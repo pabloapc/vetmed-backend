@@ -470,7 +470,7 @@
   {
     "name": "Guazu",
     "address": "San Luis 191 Barrio",
-    "phone": "3,79155E+11",
+    "phone": "",
     "email": "guadadelssin@gmail.com",
     "location": {
       "type": "Point",
@@ -782,7 +782,7 @@
   {
     "name": "Clinica Veterinaria Cumelen",
     "address": "Baradero 1925",
-    "phone": "3,51153E+11",
+    "phone": "",
     "email": "veterinariacumelen1@gmail.com",
     "location": {
       "type": "Point",
