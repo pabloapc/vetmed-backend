@@ -51,6 +51,14 @@ const veterinariaSchema = new mongoose.Schema(
       type: String,
       required: [true, "Por favor ingrese la dirección"],
     },
+    city: {
+      type: String,
+      trim: true,
+    },
+    province: {
+      type: String,
+      trim: true,
+    },
     phone: {
       type: String,
       trim: true,

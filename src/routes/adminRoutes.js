@@ -4,6 +4,7 @@ const adminController = require("../controllers/adminController");
 const { protect } = require("../middleware/auth"); // tu middleware de auth existente
 const adminOnly = require("../middleware/adminOnly");
 const leadController = require("../controllers/leadController");
+const settingsController = require("../controllers/settingsController");
 
 //const upload = require("../middleware/upload");
 const uploadVademecum = require("../middleware/upload");
@@ -111,6 +112,9 @@ router.put("/plan-coverages", protect, adminOnly, controller.upsertPlanCoverage)
 router.put("/plan-coverage", protect, adminOnly, controller.upsertPlanCoverage);   // legacy
 
 router.put("/provider-prestations", controller.upsertProviderPrestation);
+
+// Settings (feature toggles)
+router.patch("/settings", protect, adminOnly, settingsController.updateSettings);
 
 module.exports = router;
 

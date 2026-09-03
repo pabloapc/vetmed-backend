@@ -24,7 +24,6 @@ exports.search = async (req, res, next) => {
                 });
         }
 
-        const type = req.query.type || "veterinaria";
         const limit = Math.min(50, parseInt(req.query.limit, 10) || 8);
         const full = req.query.full === "true" || req.query.full === true;
 
@@ -41,44 +40,38 @@ exports.search = async (req, res, next) => {
 
         // If full results requested, return full documents
         if (full) {
-            const out = {};
-            if (type === "veterinaria") {
-                const veterinarias = await Veterinaria.find({
-                    $or: [
-                        { name: regex },
-                        { address: regex },
-                        { direccion: regex },
-                    ],
-                })
-                    .limit(100)
-                    .lean();
-                out.veterinarias = veterinarias;
-            }
-            return res.json({ success: true, data: out });
-        }
-
-        // suggestions mode: return compact list
-        const suggestions = [];
-
-        if (type === "veterinaria") {
-            const phs = await Veterinaria.find({
+            const veterinarias = await Veterinaria.find({
                 $or: [
                     { name: regex },
                     { address: regex },
                     { direccion: regex },
                 ],
             })
-                .limit(limit)
+                .limit(100)
                 .lean();
-            phs.forEach((p) => {
-                suggestions.push({
-                    type: "veterinaria",
-                    id: p._id,
-                    name: p.name,
-                    address: p.address || p.direccion || snippetFrom(p),
-                });
-            });
+            return res.json({ success: true, data: { veterinarias } });
         }
+
+        // suggestions mode: return compact list
+        const suggestions = [];
+
+        const phs = await Veterinaria.find({
+            $or: [
+                { name: regex },
+                { address: regex },
+                { direccion: regex },
+            ],
+        })
+            .limit(limit)
+            .lean();
+        phs.forEach((p) => {
+            suggestions.push({
+                type: "veterinaria",
+                id: p._id,
+                name: p.name,
+                address: p.address || p.direccion || snippetFrom(p),
+            });
+        });
 
         return res.json({
             success: true,

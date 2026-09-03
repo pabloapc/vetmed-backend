@@ -1,6 +1,28 @@
 const Veterinaria = require("../models/Veterinaria");
 const User = require("../models/User");
 
+// A veterinaria is "claimed" once a user with role "veterinaria" is linked to it
+// (User.entityId === Veterinaria._id). Unclaimed ones are just indexed listings
+// (e.g. imported from the provincial registry) with nobody managing them yet.
+const getClaimedEntityIdSet = async () => {
+  const linkedUsers = await User.find({ role: "veterinaria", entityId: { $ne: null } })
+    .select("entityId")
+    .lean();
+  return new Set(linkedUsers.map((u) => String(u.entityId)));
+};
+
+// Haversine distance between two lat/lng points, in meters.
+const distanceInMeters = (lat1, lon1, lat2, lon2) => {
+  const R = 6371000;
+  const toRad = (v) => (v * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+};
+
 /**
  * @desc    Get all veterinarias (with optional location filter)
  * @route   GET /api/veterinarias
@@ -43,6 +65,8 @@ exports.getVeterinarias = async (req, res, next) => {
         }
       });
 
+      const claimedIds = await getClaimedEntityIdSet();
+
       return res.status(200).json({
         success: true,
         count: veterinarias.length,
@@ -52,6 +76,8 @@ exports.getVeterinarias = async (req, res, next) => {
             id: veterinaria._id,
             name: veterinaria.name,
             address: veterinaria.address,
+            city: veterinaria.city,
+            province: veterinaria.province,
             phone: veterinaria.phone,
             coordinates: {
               latitude: veterinaria.location.coordinates[1],
@@ -60,7 +86,13 @@ exports.getVeterinarias = async (req, res, next) => {
             benefits: veterinaria.benefits,
             discount: veterinaria.discount,
             openingHours: veterinaria.openingHours,
-            distance: null // Could be calculated if needed
+            isClaimed: claimedIds.has(String(veterinaria._id)),
+            distance: distanceInMeters(
+              lat,
+              lng,
+              veterinaria.location.coordinates[1],
+              veterinaria.location.coordinates[0]
+            )
           }))
         }
       });
@@ -68,6 +100,7 @@ exports.getVeterinarias = async (req, res, next) => {
 
     // If no coordinates, return all veterinarias
     const veterinarias = await Veterinaria.find(query);
+    const claimedIds = await getClaimedEntityIdSet();
 
     res.status(200).json({
       success: true,
@@ -78,6 +111,8 @@ exports.getVeterinarias = async (req, res, next) => {
           id: veterinaria._id,
           name: veterinaria.name,
           address: veterinaria.address,
+          city: veterinaria.city,
+          province: veterinaria.province,
           phone: veterinaria.phone,
           coordinates: {
             latitude: veterinaria.location.coordinates[1],
@@ -85,7 +120,8 @@ exports.getVeterinarias = async (req, res, next) => {
           },
           benefits: veterinaria.benefits,
           discount: veterinaria.discount,
-          openingHours: veterinaria.openingHours
+          openingHours: veterinaria.openingHours,
+          isClaimed: claimedIds.has(String(veterinaria._id))
         }))
       }
     });
@@ -110,6 +146,11 @@ exports.getVeterinaria = async (req, res, next) => {
       });
     }
 
+    const isClaimed = await User.exists({
+      role: "veterinaria",
+      entityId: veterinaria._id,
+    });
+
     res.status(200).json({
       success: true,
       data: {
@@ -117,6 +158,8 @@ exports.getVeterinaria = async (req, res, next) => {
           id: veterinaria._id,
           name: veterinaria.name,
           address: veterinaria.address,
+          city: veterinaria.city,
+          province: veterinaria.province,
           phone: veterinaria.phone,
           coordinates: {
             latitude: veterinaria.location.coordinates[1],
@@ -125,6 +168,7 @@ exports.getVeterinaria = async (req, res, next) => {
           benefits: veterinaria.benefits,
           discount: veterinaria.discount,
           openingHours: veterinaria.openingHours,
+          isClaimed: Boolean(isClaimed),
           createdAt: veterinaria.createdAt
         }
       }
@@ -141,16 +185,24 @@ exports.getVeterinaria = async (req, res, next) => {
  */
 exports.getNearbyVeterinarias = async (req, res, next) => {
   try {
-    const user = req.user;
     const { maxDistance = 10000 } = req.query; // default 10km
 
-    // Get user's coordinates
-    const [longitude, latitude] = user.location.coordinates;
+    // Prefer explicit coordinates from the query (browser geolocation).
+    // Fall back to the authenticated user's saved location, if any.
+    let latitude = parseFloat(req.query.latitude);
+    let longitude = parseFloat(req.query.longitude);
 
-    if (latitude === 0 && longitude === 0) {
+    if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
+      const userCoords = req.user?.location?.coordinates;
+      if (userCoords) {
+        [longitude, latitude] = userCoords;
+      }
+    }
+
+    if (!latitude || !longitude) {
       return res.status(400).json({
         success: false,
-        message: 'Por favor actualiza tu ubicación para ver veterinarias cercanas'
+        message: 'Se necesita una ubicación (latitude/longitude) para ver veterinarias cercanas'
       });
     }
 
@@ -167,6 +219,8 @@ exports.getNearbyVeterinarias = async (req, res, next) => {
       }
     }).limit(20);
 
+    const claimedIds = await getClaimedEntityIdSet();
+
     res.status(200).json({
       success: true,
       count: veterinarias.length,
@@ -176,6 +230,8 @@ exports.getNearbyVeterinarias = async (req, res, next) => {
           id: veterinaria._id,
           name: veterinaria.name,
           address: veterinaria.address,
+          city: veterinaria.city,
+          province: veterinaria.province,
           phone: veterinaria.phone,
           coordinates: {
             latitude: veterinaria.location.coordinates[1],
@@ -183,7 +239,14 @@ exports.getNearbyVeterinarias = async (req, res, next) => {
           },
           benefits: veterinaria.benefits,
           discount: veterinaria.discount,
-          openingHours: veterinaria.openingHours
+          openingHours: veterinaria.openingHours,
+          isClaimed: claimedIds.has(String(veterinaria._id)),
+          distance: distanceInMeters(
+            latitude,
+            longitude,
+            veterinaria.location.coordinates[1],
+            veterinaria.location.coordinates[0]
+          )
         })),
         userLocation: {
           latitude,
@@ -203,7 +266,7 @@ exports.getNearbyVeterinarias = async (req, res, next) => {
  */
 exports.createVeterinaria = async (req, res, next) => {
   try {
-    const { name, address, phone, latitude, longitude, benefits, discount, openingHours } = req.body;
+    const { name, address, city, province, phone, latitude, longitude, benefits, discount, openingHours } = req.body;
 
     // Validate required fields
     if (!name || !address || !latitude || !longitude) {
@@ -228,6 +291,8 @@ exports.createVeterinaria = async (req, res, next) => {
     const veterinaria = await Veterinaria.create({
       name,
       address,
+      city,
+      province,
       phone,
       location: {
         type: 'Point',
@@ -247,6 +312,8 @@ exports.createVeterinaria = async (req, res, next) => {
           id: veterinaria._id,
           name: veterinaria.name,
           address: veterinaria.address,
+          city: veterinaria.city,
+          province: veterinaria.province,
           phone: veterinaria.phone,
           coordinates: {
             latitude: veterinaria.location.coordinates[1],
@@ -275,6 +342,8 @@ exports.updateVeterinaria = async (req, res, next) => {
         const {
             name,
             address,
+            city,
+            province,
             phone,
             latitude,
             longitude,
@@ -311,6 +380,8 @@ exports.updateVeterinaria = async (req, res, next) => {
         // Update fields (only if provided)
         if (typeof name !== "undefined") veterinaria.name = name;
         if (typeof address !== "undefined") veterinaria.address = address;
+        if (typeof city !== "undefined") veterinaria.city = city;
+        if (typeof province !== "undefined") veterinaria.province = province;
         if (typeof phone !== "undefined") veterinaria.phone = phone;
         if (typeof benefits !== "undefined") veterinaria.benefits = benefits;
         if (typeof discount !== "undefined") veterinaria.discount = discount;
@@ -357,6 +428,8 @@ exports.updateVeterinaria = async (req, res, next) => {
                     id: veterinaria._id,
                     name: veterinaria.name,
                     address: veterinaria.address,
+                    city: veterinaria.city,
+                    province: veterinaria.province,
                     phone: veterinaria.phone,
                     coordinates: {
                         latitude: veterinaria.location?.coordinates?.[1] ?? 0,

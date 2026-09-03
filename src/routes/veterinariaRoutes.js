@@ -12,22 +12,16 @@ const { generalLimiter } = require('../middleware/rateLimiter');
 
 const router = express.Router();
 
-// All veterinaria routes require authentication and rate limiting
-router.use(protect);
 router.use(generalLimiter);
 
-// GET routes
+// GET routes are public — the veterinarias listing must be visible without login
 router.get('/', getVeterinarias);
 router.get('/nearby', getNearbyVeterinarias);
 router.get('/:id', getVeterinaria);
 
-// POST route - Create veterinaria
-router.post('/', createVeterinaria);
-
-// PUT route - Update veterinaria
-router.put('/:id', updateVeterinaria);
-
-// DELETE route - Delete veterinaria
-router.delete('/:id', deleteVeterinaria);
+// Write routes still require authentication
+router.post('/', protect, createVeterinaria);
+router.put('/:id', protect, updateVeterinaria);
+router.delete('/:id', protect, deleteVeterinaria);
 
 module.exports = router;

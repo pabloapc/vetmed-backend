@@ -1,0 +1,2446 @@
+[
+  {
+    "name": "Lima Clinica Veterinaria",
+    "address": "Lima 1016",
+    "phone": "8968543",
+    "email": "clinicaveterinarialima@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1746,
+        -31.4137
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria El Libertador S.R.L",
+    "address": "Congreso 5325",
+    "phone": "0351-4933038",
+    "email": "germanzurbriggen@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2275,
+        -31.4738
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Arguello",
+    "address": "Manuel De Falla 6904, Local B",
+    "phone": "3513410237",
+    "email": "arguello.veterinaria@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2906,
+        -31.3405
+      ]
+    }
+  },
+  {
+    "name": "Pita Veterinaria",
+    "address": "Bv Illia 440",
+    "phone": "3517519393",
+    "email": "pitaveterinaria@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1829,
+        -31.4226
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Casa Fioretti",
+    "address": "Av. Dr. Arturo Capdevila Nº 1235",
+    "phone": "0351-4787185",
+    "email": "casafioretti@live.com.ar",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1575,
+        -31.3776
+      ]
+    }
+  },
+  {
+    "name": "Clinica Veterinaria Osiris",
+    "address": "Alsina 1737",
+    "phone": "3512133001",
+    "email": "yamiarguello@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1361,
+        -31.388
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Dra. Monica Fabing",
+    "address": "Villavicencio 710",
+    "phone": "0351-4863427",
+    "email": "adm.dra.monicafabing@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2111,
+        -31.4549
+      ]
+    }
+  },
+  {
+    "name": "Anima Centro Veterinario",
+    "address": "Chubut 190",
+    "phone": "3517872333",
+    "email": "anima.centroveterinario@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2034,
+        -31.4078
+      ]
+    }
+  },
+  {
+    "name": "Hocicos Sanatorio Veterinario",
+    "address": "Av. Colon 3870",
+    "phone": "0351-4897543",
+    "email": "hocicosveterinaria@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2336,
+        -31.3989
+      ]
+    }
+  },
+  {
+    "name": "La Huella Veterinaria",
+    "address": "Ambrosio Olmos 777",
+    "phone": "3515331771",
+    "email": "lahuellaveterinaria.nvacba@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2721,
+        -31.4135
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria San Carlos",
+    "address": "Av Madrid 2395",
+    "phone": "3514311341",
+    "email": "verogil_cba@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1711,
+        -31.4372
+      ]
+    }
+  },
+  {
+    "name": "Sanatorio Veterinario Pata Sucia",
+    "address": "Bv. Bulnes 1048-pb",
+    "phone": "3518026225",
+    "email": "vivisas@msn.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1771,
+        -31.3999
+      ]
+    }
+  },
+  {
+    "name": "Vetplanet",
+    "address": "Mariano Larra 3991 Pb",
+    "phone": "157363722",
+    "email": "vetplaneturca@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2323,
+        -31.3789
+      ]
+    }
+  },
+  {
+    "name": "Red Kanin",
+    "address": "Recta Martinoli 7850",
+    "phone": "3514242468",
+    "email": "emi1miranda@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2694,
+        -31.3469
+      ]
+    }
+  },
+  {
+    "name": "Petoutlet",
+    "address": "Bv.Los Granaderos 2771",
+    "phone": "3516887777",
+    "email": "marcoshaedo166@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.211,
+        -31.3756
+      ]
+    }
+  },
+  {
+    "name": "Cub Tienda De Mascotas",
+    "address": "Av. Ohiggins 3224 Local 4a",
+    "phone": "3512282054",
+    "email": "cub.jardin.ok@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.169,
+        -31.4503
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Sanivet",
+    "address": "Av Velez Sarsfield 3275",
+    "phone": "3513263279",
+    "email": "cortescarla954@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.199,
+        -31.4481
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Hakuna Matata",
+    "address": "Av Armada Argentina 209",
+    "phone": "4610303",
+    "email": "marianocravero@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2044,
+        -31.4526
+      ]
+    }
+  },
+  {
+    "name": "Petit Veterinaria",
+    "address": "Miguel Calixto De Corro 56",
+    "phone": "3518120335",
+    "email": "veterinariapetitcba@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1938,
+        -31.4138
+      ]
+    }
+  },
+  {
+    "name": "El Arca De Noe",
+    "address": "Peru 580",
+    "phone": "3585621505",
+    "email": "mariaicasey@yahoo.com.ar",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1976,
+        -31.4274
+      ]
+    }
+  },
+  {
+    "name": "Entre Amigos",
+    "address": "Padre Aguilera 765",
+    "phone": "3512319591",
+    "email": "jonatansuarez_vet@hotmail.com.ar",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2054,
+        -31.3868
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Fenoglio",
+    "address": "Bv Saenz Peña 515",
+    "phone": "3564681180",
+    "email": "georginafenoglio@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1615,
+        -31.4181
+      ]
+    }
+  },
+  {
+    "name": "Dra Pepa Veterinaria De Exóticos",
+    "address": "Ambrosio Olmos 782",
+    "phone": "3515112894",
+    "email": "jesica_alberico@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1898,
+        -31.4307
+      ]
+    }
+  },
+  {
+    "name": "Etra Distribuciones",
+    "address": "Donato Alvarez 9113",
+    "phone": "3512084294",
+    "email": "etradistribuciones@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2723,
+        -31.32
+      ]
+    }
+  },
+  {
+    "name": "Anca Mora Veterinaria",
+    "address": "Av. Bernardo O Higgins 6690 Villa Eucaristica",
+    "phone": "3516230009",
+    "email": "ancamora@hotmail.com.ar",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1693,
+        -31.493
+      ]
+    }
+  },
+  {
+    "name": "Ancora",
+    "address": "Mariano Benitez 1435",
+    "phone": "3517273507",
+    "email": "ancoraveterinaria@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1986,
+        -31.4024
+      ]
+    }
+  },
+  {
+    "name": "Janpix",
+    "address": "Justo Jose De Urquiza 2395",
+    "phone": "3517260025",
+    "email": "janpixvet@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1853,
+        -31.3877
+      ]
+    }
+  },
+  {
+    "name": "Vet Plus",
+    "address": "Sin Nombre Sin Nro Docta, Manz 10, Lote 1, Local 2",
+    "phone": "3515211955",
+    "email": "vetplusdocta@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2444,
+        -31.4123
+      ]
+    }
+  },
+  {
+    "name": "Medicina Animal Cordoba",
+    "address": "Av. Recta Martinolli 6455",
+    "phone": "3543423676",
+    "email": "macveterinaria@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2551,
+        -31.3487
+      ]
+    }
+  },
+  {
+    "name": "Tommy Pets",
+    "address": "Jacinto De Altolaguirre 2294",
+    "phone": "3512056854",
+    "email": "tommypets.admi19@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.134,
+        -31.3825
+      ]
+    }
+  },
+  {
+    "name": "Esperanza Distribuciones S.R.L.",
+    "address": "General Paz 1536",
+    "phone": "03496-422100",
+    "email": "paulapalavecino@esperanzadistri.com.ar",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1795,
+        -31.3997
+      ]
+    }
+  },
+  {
+    "name": "Mundo Bicho",
+    "address": "Bv Los Granaderos 3070 Barrio Alto Verde",
+    "phone": "3515213387",
+    "email": "mvandreslago@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2163,
+        -31.3736
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Alem",
+    "address": "Duarte Quirios 1851 Local 7",
+    "phone": "8823316",
+    "email": "laurabarrientos@veterinariaalem.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2095,
+        -31.4118
+      ]
+    }
+  },
+  {
+    "name": "Como Perros Y Gatos",
+    "address": "Francisco De Recalde 1791",
+    "phone": "3517012585",
+    "email": "vetecomoperrosygatos@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1695,
+        -31.3791
+      ]
+    }
+  },
+  {
+    "name": "Centro Oftalmologico Vision Animal",
+    "address": "Paraguay 360",
+    "phone": "3516746968",
+    "email": "gruporoma17@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2017,
+        -31.4158
+      ]
+    }
+  },
+  {
+    "name": "Glee Pet Market",
+    "address": "Av. O´Higgins 3765 Local 15",
+    "phone": "3513474426",
+    "email": "maradlamagni@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1675,
+        -31.456
+      ]
+    }
+  },
+  {
+    "name": "Guazu",
+    "address": "San Luis 191 Barrio",
+    "phone": "3,79155E+11",
+    "email": "guadadelssin@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1895,
+        -31.4225
+      ]
+    }
+  },
+  {
+    "name": "Enivet Clinica Veterinaria",
+    "address": "Av. Caraffa 2686",
+    "phone": "3516655361",
+    "email": "enivetclinica@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.215,
+        -31.387
+      ]
+    }
+  },
+  {
+    "name": "Glee Pet Market",
+    "address": "Av Amadeo Sabattini 3250",
+    "phone": "3515958781",
+    "email": "gleepetmarket@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1426,
+        -31.4342
+      ]
+    }
+  },
+  {
+    "name": "Gattos Medicina Veterinaria Integral",
+    "address": "Rondeau 131",
+    "phone": "3512070162",
+    "email": "gattosveterinaria@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1847,
+        -31.4225
+      ]
+    }
+  },
+  {
+    "name": "Tribu Animal",
+    "address": "Jeronimo Luis De Cabrera 964",
+    "phone": "3514215577",
+    "email": "tribuanimal.vet23@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1896,
+        -31.3957
+      ]
+    }
+  },
+  {
+    "name": "Full Belly",
+    "address": "Av. Armada Argentina 2706",
+    "phone": "3512018766",
+    "email": "fullbelly.alimento.balanceado@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2395,
+        -31.4795
+      ]
+    }
+  },
+  {
+    "name": "Vital Vet",
+    "address": "Estanislao Leartes 2465",
+    "phone": "3516088611",
+    "email": "patyromero86@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2085,
+        -31.4192
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Baudino",
+    "address": "Tomas De Irobi 240",
+    "phone": "3513556487",
+    "email": "baudinoperujo@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2003,
+        -31.3679
+      ]
+    }
+  },
+  {
+    "name": "Neozoo",
+    "address": "27 De Abril 302",
+    "phone": "3515167111",
+    "email": "silvialorenalvarez@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1912,
+        -31.4158
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria J R",
+    "address": "Bv. Bulnes 1316",
+    "phone": "3518055959",
+    "email": "veterinariajoseyrebeca@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1734,
+        -31.3998
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Zamba",
+    "address": "Catamarca 1047",
+    "phone": "3516342856",
+    "email": "macarenaacujua@hgmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1698,
+        -31.4124
+      ]
+    }
+  },
+  {
+    "name": "Trewa",
+    "address": "Cacheuta 3439 Dto 2",
+    "phone": "4616728",
+    "email": "gattoniosvaldo@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2114,
+        -31.4475
+      ]
+    }
+  },
+  {
+    "name": "Clinica Veterinaria Perez Nieto",
+    "address": "Fragueiro 2881",
+    "phone": "4710453",
+    "email": "vetpereznieto@yahoo.com.ar",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1839,
+        -31.3819
+      ]
+    }
+  },
+  {
+    "name": "Ánima Centro Veterinario",
+    "address": "Avenida Colon 1034",
+    "phone": "3517872333",
+    "email": "anima.centroveterinario@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1971,
+        -31.4094
+      ]
+    }
+  },
+  {
+    "name": "Clinica Veterinaria Albeytar",
+    "address": "Avenida Patria 304 Esquina Lima",
+    "phone": "3517631416",
+    "email": "veterinariaalbeytar@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.16,
+        -31.4101
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Alem",
+    "address": "Avenida Fuerza Aerea 4760",
+    "phone": "3518064293",
+    "email": "alan01darien@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2487,
+        -31.4326
+      ]
+    }
+  },
+  {
+    "name": "4 Patas",
+    "address": "De Los Alemanes 4995",
+    "phone": "3513479007",
+    "email": "mariana4patas@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2512,
+        -31.3419
+      ]
+    }
+  },
+  {
+    "name": "Animal Groom",
+    "address": "General Alvear 306",
+    "phone": "3516765629",
+    "email": "cpesteticaanimal@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1798,
+        -31.4132
+      ]
+    }
+  },
+  {
+    "name": "Clinica Veterinaria Eva Inguerman",
+    "address": "Obispo Trejo 629",
+    "phone": "3513749125",
+    "email": "paola.acosta@evainguerman.com.ar",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1885,
+        -31.4232
+      ]
+    }
+  },
+  {
+    "name": "Vita Veterinaria",
+    "address": "Rio Negro 4380 Rio Negro Mall-loc 4",
+    "phone": "3516688577",
+    "email": "vitaveterinaria4@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2217,
+        -31.4583
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Alem",
+    "address": "Av. Republica De China 1150 Local N°5",
+    "phone": ".",
+    "email": "administracion@veterinariaalem.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2769,
+        -31.378
+      ]
+    }
+  },
+  {
+    "name": "Domus Canis - Petshop",
+    "address": "Arequipa 1114",
+    "phone": "3513205938",
+    "email": "sebastiangialdi@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1621,
+        -31.3814
+      ]
+    }
+  },
+  {
+    "name": "Lovet",
+    "address": "Castro Barros 324",
+    "phone": "3513110688",
+    "email": "somoslovet@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1958,
+        -31.402
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Razanimal",
+    "address": "Saavedra Lamas 407",
+    "phone": "3512364559",
+    "email": "vetrazanimal@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1699,
+        -31.3632
+      ]
+    }
+  },
+  {
+    "name": "Clinica Veterinaria Cumelen",
+    "address": "Baradero 1925",
+    "phone": "3,51153E+11",
+    "email": "veterinariacumelen1@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1684,
+        -31.4437
+      ]
+    }
+  },
+  {
+    "name": "Centro Medico Veterinario Bichos`vet",
+    "address": "Nores Martinez 2951 Barrio Jardín",
+    "phone": "3517270350",
+    "email": "cmvbichosvet@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1876,
+        -31.4464
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Silvet",
+    "address": "Cochabamba 1091 Local 1",
+    "phone": "3513723247",
+    "email": "silvetcba@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1727,
+        -31.4028
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Paimun",
+    "address": "Independencia 533 Local A",
+    "phone": "4212560",
+    "email": "mcecihoffmann@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1866,
+        -31.4224
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Brochero",
+    "address": "Aviador Pettirossi 3545 Esquina Estocolmo 4655",
+    "phone": "3513499503",
+    "email": "vivas.andres@live.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.248,
+        -31.4493
+      ]
+    }
+  },
+  {
+    "name": "Neoveterinaria",
+    "address": "Justo Jose De Urquiza 1415",
+    "phone": "3516831676",
+    "email": "cristianzuecco@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1884,
+        -31.3984
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Lagunilla",
+    "address": "Lagunilla 3868 3868/3864 Local Comercial",
+    "phone": "4831692",
+    "email": "luisifer29@hotmai.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.239,
+        -31.4367
+      ]
+    }
+  },
+  {
+    "name": "Trade Farma Argentina",
+    "address": "General Paz 1248",
+    "phone": "(0351)4710116",
+    "email": "tradefarma@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1811,
+        -31.4028
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Alem",
+    "address": "Rafael Nuñez 4430",
+    "phone": "0351-4240880",
+    "email": "administracion@veterinariaalem.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2342,
+        -31.3668
+      ]
+    }
+  },
+  {
+    "name": "Neozoo",
+    "address": "Lima 1697 Local 3",
+    "phone": "4471101",
+    "email": "arquitectura.brahin@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1618,
+        -31.4111
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Alem",
+    "address": "Colon 857",
+    "phone": "0351-4240880",
+    "email": "administracion@veterinariaalem.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1948,
+        -31.4103
+      ]
+    }
+  },
+  {
+    "name": "Productos Ganaderos",
+    "address": "Libertad 1457",
+    "phone": "3512334445",
+    "email": "guilleiribarren@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1661,
+        -31.4079
+      ]
+    }
+  },
+  {
+    "name": "Neozoo Cerro",
+    "address": "Av. Rafael Nuñez 4126",
+    "phone": "3516878855",
+    "email": "aguscuni@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2313,
+        -31.3704
+      ]
+    }
+  },
+  {
+    "name": "Lala^s Consultorio Y Tienda De Mascotas",
+    "address": "Martin Garcia 440 Loc. S.martin 440",
+    "phone": "0351-8933225",
+    "email": "dra_mariawagner@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1954,
+        -31.4005
+      ]
+    }
+  },
+  {
+    "name": "General Paz Vet SAS",
+    "address": "25 De Mayo 1371 Pb",
+    "phone": "4511305",
+    "email": "generalpazvet@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1516,
+        -31.411
+      ]
+    }
+  },
+  {
+    "name": "Curarvet",
+    "address": "Zaragoza 2357",
+    "phone": "3515074460",
+    "email": "curarvet@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1661,
+        -31.4362
+      ]
+    }
+  },
+  {
+    "name": "Centro Veterinario Bolivar",
+    "address": "Simon Bolivar 348",
+    "phone": "3513415071",
+    "email": "cetroveterinariobolivar348@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1925,
+        -31.4182
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Luciana Mulet",
+    "address": "Calle Publica 6029 Pasaje Edison 6029",
+    "phone": "3515919149",
+    "email": "veterinarialucianamulet@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2617,
+        -31.3491
+      ]
+    }
+  },
+  {
+    "name": "Neozoo",
+    "address": "Humberto Primo 86",
+    "phone": "3512271127",
+    "email": "silvialorenalvarez@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1851,
+        -31.4098
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria El Arca",
+    "address": "Av. Richieri 3296 Local 2822",
+    "phone": "3516363473",
+    "email": "nataliapedrotti@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1768,
+        -31.4506
+      ]
+    }
+  },
+  {
+    "name": "Neozoo",
+    "address": "Dr. Mauricio Yadarola 1699 Local 8",
+    "phone": "3514741039",
+    "email": "neozootalleres@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1585,
+        -31.3924
+      ]
+    }
+  },
+  {
+    "name": "Neozoo",
+    "address": "Jujuy 1412 Local 6",
+    "phone": "5001761",
+    "email": "diego.70farias@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1845,
+        -31.3998
+      ]
+    }
+  },
+  {
+    "name": "Ina Vet",
+    "address": "Bv San Juan 885",
+    "phone": "3584352683",
+    "email": "medvet.rc@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1979,
+        -31.4179
+      ]
+    }
+  },
+  {
+    "name": "Neozoo",
+    "address": "Damian Garat 3255 Loc 330",
+    "phone": "4764452",
+    "email": "seba_fullpets@yahoo.com.ar",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2153,
+        -31.3632
+      ]
+    }
+  },
+  {
+    "name": "Centro Veterinario Narices Frias SRL",
+    "address": "Vieytes 271",
+    "phone": "4804692",
+    "email": "agestevez86@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2134,
+        -31.4099
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Mymba",
+    "address": "Catamarca 1351",
+    "phone": "3518062509",
+    "email": "v_sole88@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1662,
+        -31.4114
+      ]
+    }
+  },
+  {
+    "name": "Clinica Veterinaria Senger",
+    "address": "Tucuman Esq San Luis 1299",
+    "phone": "03541-450763",
+    "email": "ivansenger@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2047,
+        -31.4191
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Arauca",
+    "address": "Avenida Emilio Caraffa 1813",
+    "phone": "3513036017",
+    "email": "arauca.veterinaria@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2029,
+        -31.391
+      ]
+    }
+  },
+  {
+    "name": "Nuestros Pequeños",
+    "address": "República Del Líbano N° 1203",
+    "phone": "3514725944",
+    "email": "adriangzeitune@outlook.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1726,
+        -31.3915
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria PetPetit",
+    "address": "Sgto. Cabral 1384",
+    "phone": "7247043",
+    "email": "petpetitveterinaria@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1508,
+        -31.4248
+      ]
+    }
+  },
+  {
+    "name": "Clinica Veterinaria Kairos",
+    "address": "Av Armada Argentina 933",
+    "phone": "0351-3102167",
+    "email": "kairosveterinaria@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.214,
+        -31.4591
+      ]
+    }
+  },
+  {
+    "name": "Clinica Veterinaria Eva Ingerman",
+    "address": "Av Colon 6200",
+    "phone": "3513749125",
+    "email": "paola.acosta@evainguerman.com.ar",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2252,
+        -31.4009
+      ]
+    }
+  },
+  {
+    "name": "Ucle Veterinaria",
+    "address": "Fuerza Aerea 4463 5010",
+    "phone": "0351-4651420",
+    "email": "ucleveterinaria@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2455,
+        -31.4326
+      ]
+    }
+  },
+  {
+    "name": "Mi Vet",
+    "address": "Buenos Aires 1124",
+    "phone": "351-15361402",
+    "email": "medvetcardeilhac@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1972,
+        -31.4152
+      ]
+    }
+  },
+  {
+    "name": "Medicina Felina Córdoba",
+    "address": "Lope De Vega 408 Esquina Sucre 2805",
+    "phone": "0351-4729233",
+    "email": "belencarbo@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1797,
+        -31.3829
+      ]
+    }
+  },
+  {
+    "name": "Club De Mascotas",
+    "address": "12 De Octubre 1104",
+    "phone": "-",
+    "email": "lucianafrancavilla@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.195,
+        -31.404
+      ]
+    }
+  },
+  {
+    "name": "Clinica Veterinaria Taba-cue",
+    "address": "Octavio Pinto 2638 Local 2",
+    "phone": "0351-152091015",
+    "email": "chabbalrod@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2146,
+        -31.3897
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Pulgas",
+    "address": "Cornelio Saavedra 483",
+    "phone": "0351-155555161",
+    "email": "cra.nellymoyano@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1962,
+        -31.3866
+      ]
+    }
+  },
+  {
+    "name": "Ocho Canes",
+    "address": "Agustin Garzon 4151",
+    "phone": "0351-155524071",
+    "email": "ochocanes@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1319,
+        -31.4268
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Kai Ken",
+    "address": "Alsina 1914",
+    "phone": "0351-157061015",
+    "email": "jbencio@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1333,
+        -31.3863
+      ]
+    }
+  },
+  {
+    "name": "Cemvet Centro Medico Veterinario",
+    "address": "Lascano Colodrero 2993",
+    "phone": "0351-4760098",
+    "email": "priottomarcelo54@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.212,
+        -31.3632
+      ]
+    }
+  },
+  {
+    "name": "Corave S.c.c.",
+    "address": "Soldado Ruiz 971",
+    "phone": "0351-4717690",
+    "email": "coravescc@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1945,
+        -31.394
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Inti Huasy",
+    "address": "Ramon Peña 8594 - Arguello 8594",
+    "phone": "03543-446598",
+    "email": "intihuasycv@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2582,
+        -31.3193
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Mendieta",
+    "address": "Puerto Principe 1501",
+    "phone": "0351-4710006",
+    "email": "mv_aleber@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1675,
+        -31.3828
+      ]
+    }
+  },
+  {
+    "name": "Medi Vet",
+    "address": "Obispo Salguero 724",
+    "phone": "3516068268",
+    "email": "medivet.cba@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1828,
+        -31.4263
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria India",
+    "address": "Av.colon 2653",
+    "phone": "0351-4870018",
+    "email": "hernanvannelli@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2168,
+        -31.4038
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Velasco",
+    "address": "Jose Leon Sandoval 7851",
+    "phone": "3513084219",
+    "email": "vetvelasco@yahoo.com.ar",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2682,
+        -31.3403
+      ]
+    }
+  },
+  {
+    "name": "Pet Shop Plaza Mascota",
+    "address": "Potosi 1120",
+    "phone": "3512060085",
+    "email": "solesignoretti@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1727,
+        -31.4019
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Alem",
+    "address": "Pueyrredon 4",
+    "phone": "0351-4691210",
+    "email": "francorosso@veterinariaalem.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.189,
+        -31.4272
+      ]
+    }
+  },
+  {
+    "name": "El Rastrojo Ii",
+    "address": "Rene Bracamonte 6011",
+    "phone": "0351-155197318",
+    "email": "kuruzu86@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2468,
+        -31.3435
+      ]
+    }
+  },
+  {
+    "name": "Salud Animal",
+    "address": "Admte. Brown N° 1274",
+    "phone": "3512293481",
+    "email": "ivanfcba@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.223,
+        -31.423
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Alem",
+    "address": "Av Alem Esq. Nuevo Mundo 1699",
+    "phone": "4669270",
+    "email": "administracion@veterinariaalem.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.162,
+        -31.3854
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Huesos",
+    "address": "Diagonal Ica 1916",
+    "phone": "0351-4794950",
+    "email": "veterinaria_huesos@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1504,
+        -31.3834
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Planeta Animal",
+    "address": "24 De Setiembre 1336",
+    "phone": "0351-4524442",
+    "email": "vetcarolinaangeletti@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1655,
+        -31.4138
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria El Gauchito Gil",
+    "address": "Galileo 5596 B° Ituzaingo",
+    "phone": "0",
+    "email": "delforgonzalez@hotmail.com.ar",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.0956,
+        -31.4661
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Darwin",
+    "address": "Obispo Trejo 1294",
+    "phone": "0351-4607366",
+    "email": "veterinariadarwin@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1917,
+        -31.4304
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Boedo",
+    "address": "Junin 5403 Esq Boedo 1799",
+    "phone": "0351-4574649",
+    "email": "veterinariaboedo@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1193,
+        -31.4296
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Como Perro Y Gato",
+    "address": "Av Bernardo Ohiggins 5845 Local 6",
+    "phone": "351-4671669",
+    "email": "cyonofui@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1683,
+        -31.4801
+      ]
+    }
+  },
+  {
+    "name": "Medical Vet",
+    "address": "Esquiu 329",
+    "phone": "0351-155226969",
+    "email": "medicalvett@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1714,
+        -31.4137
+      ]
+    }
+  },
+  {
+    "name": "Animalia",
+    "address": "Fuerza Aerea 4059",
+    "phone": "0351-4666503",
+    "email": "cvetanimalia@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2413,
+        -31.4325
+      ]
+    }
+  },
+  {
+    "name": "Tu-can",
+    "address": "Baradero 2719",
+    "phone": "0351-4649675",
+    "email": "saturnoro@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1645,
+        -31.4435
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Amaru",
+    "address": "Lascano Colodrero 2648",
+    "phone": "0351-4760591",
+    "email": "xavierrb34@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2091,
+        -31.3637
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Liceo",
+    "address": "Av. Alfonsna Storni 746",
+    "phone": "0351-4925088",
+    "email": "marcelolupi746@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.165,
+        -31.3545
+      ]
+    }
+  },
+  {
+    "name": "Kanus Centro Medico Veterinario",
+    "address": "Fernando Fader 3571",
+    "phone": "0351-4821652",
+    "email": "0205517@ucc.edu.ar",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2269,
+        -31.3797
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Toli",
+    "address": "Almagro 2011 - Barrio 1 De Mayo",
+    "phone": "0351-153645983",
+    "email": "tolititi@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1181,
+        -31.432
+      ]
+    }
+  },
+  {
+    "name": "Clinica Veterinaria Sacanta",
+    "address": "25 De Mayo 152",
+    "phone": "03533-492265",
+    "email": "veterinariasacanta@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1816,
+        -31.4155
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Bichos",
+    "address": "Av. Fuerza Aerea 2949",
+    "phone": "0351-4658784",
+    "email": "mans22@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2305,
+        -31.4315
+      ]
+    }
+  },
+  {
+    "name": "Sanavet",
+    "address": "M Fragueiro 3519 L 3",
+    "phone": "0351-4837138",
+    "email": "mgcosty@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1841,
+        -31.3734
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Pet One",
+    "address": "Av. Recta Martinolli 6973",
+    "phone": "03543-448014",
+    "email": "karinabarcena@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.263,
+        -31.3482
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Ocampo",
+    "address": "Rancagua 2804",
+    "phone": "0351-4784804",
+    "email": "honnoratruben@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1478,
+        -31.3775
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Pet One",
+    "address": "Recta Martinolli 8182",
+    "phone": "03543-448111",
+    "email": "karinabarcena@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2785,
+        -31.3468
+      ]
+    }
+  },
+  {
+    "name": "Skinvet",
+    "address": "Luis De Tejeda 4541",
+    "phone": "0351-4812408",
+    "email": "drerbettaskinvet@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2401,
+        -31.3662
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Pandy",
+    "address": "Nicolas De Isasmendi 2920",
+    "phone": "0351-4527853",
+    "email": "vetpandy@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1365,
+        -31.3856
+      ]
+    }
+  },
+  {
+    "name": "S.v.veterinaria",
+    "address": "Av. Julio A. Roca 1485",
+    "phone": "0351-4661133",
+    "email": "walterison@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2134,
+        -31.4303
+      ]
+    }
+  },
+  {
+    "name": "Pampa Norte",
+    "address": "Rodriguez Del Busto 3415",
+    "phone": "3515915914",
+    "email": "vet.verzellini@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2215,
+        -31.3697
+      ]
+    }
+  },
+  {
+    "name": "Little Pet´s -clinica Veterinaria",
+    "address": "Av. 24 De Septiembre 1643",
+    "phone": "3515515234",
+    "email": "ivismaidana@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1618,
+        -31.4125
+      ]
+    }
+  },
+  {
+    "name": "La Cucha",
+    "address": "Av. Colon 2183",
+    "phone": "0351-4898499",
+    "email": "lacuchavet6@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.214,
+        -31.4055
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Hamity",
+    "address": "Rafael Nuñez 6172",
+    "phone": "3517351384",
+    "email": "veterinariahamity@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2507,
+        -31.3458
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Yaguá",
+    "address": "Av. Richieri 3025",
+    "phone": "0351-4643992",
+    "email": "veterinariayagua@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1789,
+        -31.4471
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Neo Zoo",
+    "address": "Fragueiro 1980",
+    "phone": "4711119",
+    "email": "marcoshaedo166@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1869,
+        -31.3925
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Neo Zoo Icfn S.R.L.",
+    "address": "Pueyrredon 105",
+    "phone": "0351-4605753",
+    "email": "marcoshaedo166@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1929,
+        -31.427
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Paimun",
+    "address": "Fray Luis Beltran 2937 Local 3",
+    "phone": "0351-4774428",
+    "email": "mcecihoffmann@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2149,
+        -31.3665
+      ]
+    }
+  },
+  {
+    "name": "Dean Funes Medicina Veterinaria",
+    "address": "Dean Funes 925 - Pb",
+    "phone": "(351) 397-3094",
+    "email": "pablomvar@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1984,
+        -31.4125
+      ]
+    }
+  },
+  {
+    "name": "Cooperativa Agricola Ganadera De Morteros Ltda",
+    "address": "Av. El Libertador 601",
+    "phone": "03562-422412",
+    "email": "cagmveterinaria@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.22,
+        -31.4768
+      ]
+    }
+  },
+  {
+    "name": "Dulces Mascotas",
+    "address": "Av Patria 407",
+    "phone": "3513529133",
+    "email": "pabloandreshurtado@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1581,
+        -31.4091
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Los Paraisos",
+    "address": "Av. Cornelio Saavedra 3009 Local 2",
+    "phone": "0351-4770059",
+    "email": "miriancarinadalton@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1989,
+        -31.378
+      ]
+    }
+  },
+  {
+    "name": "Equus S.A.",
+    "address": "Valparaiso 3748",
+    "phone": "0351-4620355",
+    "email": "jjcavallo@equus-sa.com.ar",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1895,
+        -31.456
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Paiuhén",
+    "address": "Av. Don Bosco 5038",
+    "phone": "0351-4842871",
+    "email": "evgvilkas@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2522,
+        -31.4026
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Kynos",
+    "address": "Belardinelli 3565",
+    "phone": "0351-4619648",
+    "email": "euge0976@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1949,
+        -31.4521
+      ]
+    }
+  },
+  {
+    "name": "Instituto Médico Veterinario Dingo",
+    "address": "Lamartine 2773",
+    "phone": "0351-4684314",
+    "email": "adm.vetdingo@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2017,
+        -31.4429
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Gaona",
+    "address": "Av. Patria 207 Barrio General Paz",
+    "phone": "3518824322",
+    "email": "gaonac834@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1575,
+        -31.411
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Coquetos",
+    "address": "Jose Roque Funes 1322",
+    "phone": "0351-4829296",
+    "email": "natydoffo@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.243,
+        -31.3781
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Leo",
+    "address": "Ruta A 74 Km 7 1/2 Villa Retiro",
+    "phone": "3516157280",
+    "email": "pontleonardo@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1499,
+        -31.3439
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Pet One",
+    "address": "Av. Valparaiso 3064",
+    "phone": "0351-4622635",
+    "email": "bboiero@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1895,
+        -31.4477
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Tablada",
+    "address": "Octavio Pinto 2154",
+    "phone": "4803454",
+    "email": "vettablada@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2104,
+        -31.395
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Misha",
+    "address": "Felix Paz 1018",
+    "phone": "3515111762",
+    "email": "veterinariamishacba@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2322,
+        -31.417
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Cruz Azul",
+    "address": "Heriberto Martinez 6564",
+    "phone": "03543-446269",
+    "email": "josacol@yahoo.com.ar",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.264,
+        -31.3444
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Río Suquía",
+    "address": "Río Bamba 188",
+    "phone": "0351-4848416",
+    "email": "rohiposo@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2558,
+        -31.3957
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Patas",
+    "address": "Cañada De Gomez 4139 Local 2",
+    "phone": "155946068",
+    "email": "carolinagraci535@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2606,
+        -31.4548
+      ]
+    }
+  },
+  {
+    "name": "Clinica Veterinaria Granja 60",
+    "address": "Av. Fuerza Aerea 1745",
+    "phone": "3513528443",
+    "email": "fernandozuain@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2139,
+        -31.4305
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Munay",
+    "address": "Augusto Lopez 495",
+    "phone": "156183680",
+    "email": "maripeck8@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1772,
+        -31.3929
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Rufus",
+    "address": "Santa Ana 5811",
+    "phone": "0351-6188607",
+    "email": "aishalaborde@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2617,
+        -31.4117
+      ]
+    }
+  },
+  {
+    "name": "Vetacord Comercial S.A.",
+    "address": "Estados Unidos 2796",
+    "phone": "0351 4551384",
+    "email": "info@vetacord.com.ar",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1481,
+        -31.4223
+      ]
+    }
+  },
+  {
+    "name": "Compañía De Mascotas",
+    "address": "Agustin Garzon 1832",
+    "phone": "3515945224",
+    "email": "laucazon@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1631,
+        -31.4247
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Ñandubay",
+    "address": "Av. Donato Alvarez 9440",
+    "phone": "0351- 158050125",
+    "email": "indiolg@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2746,
+        -31.3161
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria San Francisco",
+    "address": "Italia Nº 2022",
+    "phone": "0351-4894301",
+    "email": "marceloadrianruffino@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2044,
+        -31.3893
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Alem",
+    "address": "Elias Yofre 1050 Paseo Del Jockey- Local 4",
+    "phone": "4647154",
+    "email": "administracion@veterinariaalem.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1805,
+        -31.451
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Pixies",
+    "address": "Betania 2792",
+    "phone": "0351-4888751",
+    "email": "veterinariapixies@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.22,
+        -31.3917
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Sana Sana",
+    "address": "Monseñor Pablo Cabrera 2926",
+    "phone": "0351-4761344",
+    "email": "vetercor_natalia@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2053,
+        -31.3685
+      ]
+    }
+  },
+  {
+    "name": "Consultorio Veterinario Puppys Vet",
+    "address": "Luis Agote 2052",
+    "phone": "3518810425",
+    "email": "ggallardo09@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2153,
+        -31.4266
+      ]
+    }
+  },
+  {
+    "name": "Summa",
+    "address": "Roque Funes 1660 Pb 1660",
+    "phone": "0351-4823181",
+    "email": "mv.leandroguevara@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2417,
+        -31.3735
+      ]
+    }
+  },
+  {
+    "name": "Clinica Veterinaria Dr. Juan Patane",
+    "address": "Av. Padre Claret 4124",
+    "phone": "0351-4818681",
+    "email": "juanpatane@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2383,
+        -31.358
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Manantiales",
+    "address": "San Antonio 4087",
+    "phone": "0351-2800239",
+    "email": "manantialesvet@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.244,
+        -31.4523
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Dr. Sergio",
+    "address": "Av A Sabattini 4555",
+    "phone": "",
+    "email": "sergiogiacometti1918@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1425,
+        -31.4339
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Mis Amigos",
+    "address": "Nicolás Avellaneda 2998",
+    "phone": "0351-4718514",
+    "email": "mfn1666200872@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.189,
+        -31.3806
+      ]
+    }
+  },
+  {
+    "name": "Entre Perros Y Gatos",
+    "address": "Entre Rios 2207",
+    "phone": "0351-156676098",
+    "email": "carinaestefaniaulrich2@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1554,
+        -31.4237
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Providencia",
+    "address": "El Chaco 1028",
+    "phone": "0351-4717235",
+    "email": "miriamestelallense@outlook.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1994,
+        -31.4021
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Pecos",
+    "address": "Arturo M. Bas 345",
+    "phone": "0351-4257614",
+    "email": "veterinariapecos@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1936,
+        -31.4178
+      ]
+    }
+  },
+  {
+    "name": "Centro De Atencion Veterinaria El Naranjo",
+    "address": "Maestro Vidal 1833",
+    "phone": "4662220",
+    "email": "animoccia@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2325,
+        -31.4302
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Maiten",
+    "address": "Villavicencio 1080",
+    "phone": "0351-4618067",
+    "email": "maitenvet@yahoo.es",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2124,
+        -31.452
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Soriano",
+    "address": "Virgen De La Merced Nº 2820",
+    "phone": "0351-4894670",
+    "email": "vetsoriano@yahoo.com.ar",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2144,
+        -31.3771
+      ]
+    }
+  },
+  {
+    "name": "Timagu",
+    "address": "Misiones 1395",
+    "phone": "0351-4684054",
+    "email": "veterinariatimagu@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2097,
+        -31.4277
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Cordoba",
+    "address": "Jujuy 1491 - 1495",
+    "phone": "0351-4711316",
+    "email": "carito_cura89@hotmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1891,
+        -31.4099
+      ]
+    }
+  },
+  {
+    "name": "Animalfix",
+    "address": "Duarte Quiros 1413",
+    "phone": "0351-4881889",
+    "email": "mgazal2003@yahoo.com.ar",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2044,
+        -31.4133
+      ]
+    }
+  },
+  {
+    "name": "Mundo Animal",
+    "address": "27 De Abril 316",
+    "phone": "0351-4250249",
+    "email": "felixjuanlanzacadtelli@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1888,
+        -31.4158
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Ks - Pit",
+    "address": "Av. Recta Martinolli 6908",
+    "phone": "3543421760",
+    "email": "marianabiole@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2624,
+        -31.3479
+      ]
+    }
+  },
+  {
+    "name": "El Viejo Trehua",
+    "address": "Av. Cjal. Felipe Belardinelli 4060",
+    "phone": "0351-154598833",
+    "email": "guillermo.capretta@gmail.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.1994,
+        -31.4585
+      ]
+    }
+  },
+  {
+    "name": "Veterinaria Alem",
+    "address": "Bv.los Granaderos 2075",
+    "phone": "0351-4742741",
+    "email": "natirichiger@outlook.com",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        -64.2016,
+        -31.3806
+      ]
+    }
+  }
+]

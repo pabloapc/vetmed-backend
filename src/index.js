@@ -54,8 +54,8 @@ const dominiosPermitidos = [
     // Production
  
     "https://vetmed-backend-9eqc.onrender.com/api",
-    "https://vetmed-frontend-five.vercel.app",
-    // "https://vetmed.com.ar",
+    "https://www.vetfind.com.ar/",
+    "https://www.vetfind.com.ar",
     // "https://www.vetmed.com.ar",
 ];
 
