@@ -359,7 +359,7 @@ exports.getVeterinaria = async (req, res, next) => {
 
 /**
  * PUT /api/admin/veterinarias/:id
- * Admin editable fields: name,address,phone,benefits,discount,openingHours,isActive,location
+ * Admin editable fields: name,address,phone,description,benefits,discount,openingHours,isActive,location
  */
 exports.updateVeterinariaAdmin = async (req, res, next) => {
     try {
@@ -373,6 +373,7 @@ exports.updateVeterinariaAdmin = async (req, res, next) => {
             "name",
             "address",
             "phone",
+            "description",
             "benefits",
             "discount",
             "openingHours",
@@ -566,11 +567,12 @@ exports.deleteEmergencyAdmin = async (req, res, next) => {
 // POST /api/admin/veterinarias
 exports.createVeterinaria = async (req, res, next) => {
   try {
-    const { name, address, phone, benefits, discount, openingHours, latitude, longitude, isActive } = req.body;
+    const { name, address, phone, description, benefits, discount, openingHours, latitude, longitude, isActive } = req.body;
     const payload = {
       name: name || 'Farmacia',
       address: address || '',
       phone: phone || '',
+      description,
       benefits,
       discount: typeof discount !== 'undefined' ? Number(discount) : undefined,
       openingHours,

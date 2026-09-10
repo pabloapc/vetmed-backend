@@ -177,6 +177,7 @@ exports.getVeterinaria = async (req, res, next) => {
           city: veterinaria.city,
           province: veterinaria.province,
           phone: veterinaria.phone,
+          description: veterinaria.description,
           coordinates: {
             latitude: veterinaria.location.coordinates[1],
             longitude: veterinaria.location.coordinates[0]
@@ -226,6 +227,7 @@ exports.getVeterinariaBySlug = async (req, res, next) => {
           city: veterinaria.city,
           province: veterinaria.province,
           phone: veterinaria.phone,
+          description: veterinaria.description,
           coordinates: {
             latitude: veterinaria.location.coordinates[1],
             longitude: veterinaria.location.coordinates[0]
@@ -332,7 +334,7 @@ exports.getNearbyVeterinarias = async (req, res, next) => {
  */
 exports.createVeterinaria = async (req, res, next) => {
   try {
-    const { name, address, city, province, phone, latitude, longitude, benefits, discount, openingHours } = req.body;
+    const { name, address, city, province, phone, description, latitude, longitude, benefits, discount, openingHours } = req.body;
 
     // Validate required fields
     if (!name || !address || !latitude || !longitude) {
@@ -362,6 +364,7 @@ exports.createVeterinaria = async (req, res, next) => {
       city,
       province,
       phone,
+      description,
       location: {
         type: 'Point',
         coordinates: [lng, lat]
@@ -384,6 +387,7 @@ exports.createVeterinaria = async (req, res, next) => {
           city: veterinaria.city,
           province: veterinaria.province,
           phone: veterinaria.phone,
+          description: veterinaria.description,
           coordinates: {
             latitude: veterinaria.location.coordinates[1],
             longitude: veterinaria.location.coordinates[0]
@@ -414,6 +418,7 @@ exports.updateVeterinaria = async (req, res, next) => {
             city,
             province,
             phone,
+            description,
             latitude,
             longitude,
             benefits,
@@ -452,6 +457,7 @@ exports.updateVeterinaria = async (req, res, next) => {
         if (typeof city !== "undefined") veterinaria.city = city;
         if (typeof province !== "undefined") veterinaria.province = province;
         if (typeof phone !== "undefined") veterinaria.phone = phone;
+        if (typeof description !== "undefined") veterinaria.description = description;
         if (typeof benefits !== "undefined") veterinaria.benefits = benefits;
         if (typeof discount !== "undefined") veterinaria.discount = discount;
         if (typeof openingHours !== "undefined")

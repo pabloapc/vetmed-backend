@@ -125,6 +125,94 @@ exports.upsertPlanCoverage = async (req, res) => {
     res.json({ success: true, data });
 };
 
+// Admin: create a coverage explicitly — unlike upsertPlanCoverage (used by the legacy
+// PUT alias), this rejects a duplicate plan+prestation pair instead of silently
+// overwriting the existing row, so the admin panel's "create" action can't clobber data.
+exports.createPlanCoverage = async (req, res, next) => {
+    try {
+        const { insurerId, planId, prestationId } = req.body;
+        if (!insurerId || !planId || !prestationId) {
+            return res.status(400).json({
+                success: false,
+                message: "insurerId, planId y prestationId son requeridos",
+            });
+        }
+
+        const existing = await PlanCoverage.findOne({ planId, prestationId });
+        if (existing) {
+            return res.status(409).json({
+                success: false,
+                message:
+                    "Ya existe una cobertura para este plan y esta prestación. Editá la existente en vez de crear una nueva.",
+                data: existing,
+            });
+        }
+
+        const data = await PlanCoverage.create({
+            insurerId,
+            planId,
+            prestationId,
+            coverageMode: req.body.coverageMode,
+            coveragePercent: req.body.coveragePercent,
+            copayAmount: req.body.copayAmount,
+            currency: req.body.currency,
+            requiresAuthorization: req.body.requiresAuthorization,
+            referralRequired: req.body.referralRequired,
+            limitPeriod: req.body.limitPeriod,
+            limitCount: req.body.limitCount,
+            waitingPeriodDays: req.body.waitingPeriodDays,
+            notes: req.body.notes,
+            validFrom: req.body.validFrom,
+            validTo: req.body.validTo,
+            metadata: req.body.metadata,
+            isActive: req.body.isActive ?? true,
+        });
+
+        res.status(201).json({ success: true, data });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getPlanCoverageAdmin = async (req, res, next) => {
+    try {
+        const data = await PlanCoverage.findById(req.params.id)
+            .populate("insurerId", "name")
+            .populate("planId", "name")
+            .populate("prestationId", "name code");
+        if (!data)
+            return res.status(404).json({ success: false, message: "Cobertura no encontrada" });
+        res.json({ success: true, data });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.updatePlanCoverageAdmin = async (req, res, next) => {
+    try {
+        const data = await PlanCoverage.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true,
+        });
+        if (!data)
+            return res.status(404).json({ success: false, message: "Cobertura no encontrada" });
+        res.json({ success: true, data });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.deletePlanCoverageAdmin = async (req, res, next) => {
+    try {
+        const data = await PlanCoverage.findByIdAndDelete(req.params.id);
+        if (!data)
+            return res.status(404).json({ success: false, message: "Cobertura no encontrada" });
+        res.json({ success: true, message: "Cobertura eliminada" });
+    } catch (error) {
+        next(error);
+    }
+};
+
 exports.upsertProviderPrestation = async (req, res) => {
     const { providerId, prestationId } = req.body;
 

@@ -71,6 +71,13 @@ const veterinariaSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    // SEO copy shown on the public detail page (also feeds the meta description
+    // and JSON-LD) — without it pages have almost no unique text for Google to index.
+    description: {
+      type: String,
+      trim: true,
+      maxlength: 600,
+    },
     location: {
       type: {
         type: String,

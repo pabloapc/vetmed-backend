@@ -107,8 +107,11 @@ router.put("/plans/:id", protect, adminOnly, controller.updatePlanAdmin);
 router.delete("/plans/:id", protect, adminOnly, controller.deletePlanAdmin);
 
 router.get("/plan-coverages", protect, adminOnly, controller.listPlanCoveragesAdmin);
-router.post("/plan-coverages", protect, adminOnly, controller.upsertPlanCoverage); // alias front
-router.put("/plan-coverages", protect, adminOnly, controller.upsertPlanCoverage);  // alias
+router.post("/plan-coverages", protect, adminOnly, controller.createPlanCoverage);
+router.get("/plan-coverages/:id", protect, adminOnly, controller.getPlanCoverageAdmin);
+router.put("/plan-coverages/:id", protect, adminOnly, controller.updatePlanCoverageAdmin);
+router.delete("/plan-coverages/:id", protect, adminOnly, controller.deletePlanCoverageAdmin);
+router.put("/plan-coverages", protect, adminOnly, controller.upsertPlanCoverage);  // legacy upsert alias
 router.put("/plan-coverage", protect, adminOnly, controller.upsertPlanCoverage);   // legacy
 
 router.put("/provider-prestations", controller.upsertProviderPrestation);
